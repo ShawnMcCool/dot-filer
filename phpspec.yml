@@ -1,0 +1,6 @@
+suites:
+  main:
+    namespace: "DotFiler"
+    psr4_prefix: "DotFiler"
+    src_path: src
+formatter.name: pretty

@@ -1,0 +1,33 @@
+{
+  "name": "shawnmccool/dot-filer",
+  "description": "A PHP script to help manage dot files in a git repository.",
+  "type": "project",
+  "authors": [
+    {
+      "name": "Shawn McCool",
+      "email": "shawnmc@gmail.com"
+    }
+  ],
+  "require": {
+    "php": "^7.2"
+  },
+  "require-dev": {
+    "phpspec/phpspec": "^4"
+  },
+  "autoload": {
+    "psr-4": {
+      "DotFiler\\": "src/"
+    },
+    "files": [
+      "./src/functions.php"
+    ]
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "spec\\DotFiler\\": "spec/"
+    },
+    "files": [
+      "spec/functions.php"
+    ]
+  }
+}
