@@ -34,6 +34,15 @@ When a target is found to be a file, it'll mirror that file's folder structure i
 
 In this way your important configuration files can be found and accessed as normal while all existing within a centralized location (your dot files repo).
 
+```shell script
+$ dot-backup <target-file> <backup-repo>
+```
+
+Options:
+```
+--dry-run   display a report of what a backup run would do
+```
+
 ### Restoration
 
 A target file can be used to remove configuration files on your machine and create symlinks to the files in your dot file repo.

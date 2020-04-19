@@ -9,10 +9,10 @@
     }
   ],
   "require": {
-    "php": "^7.2"
+    "php": "^7.4"
   },
   "require-dev": {
-    "phpspec/phpspec": "^4"
+    "phpunit/phpunit": "^9"
   },
   "autoload": {
     "psr-4": {
@@ -24,10 +24,14 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "spec\\DotFiler\\": "spec/"
+      "Tests\\DotFiler\\": "tests/"
     },
     "files": [
-      "spec/functions.php"
+      
     ]
-  }
+  },
+  "config": {
+    "bin-dir": "bin"
+  },
+  "minimum-stability": "dev"
 }
