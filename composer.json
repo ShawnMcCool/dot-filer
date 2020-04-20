@@ -30,8 +30,5 @@
       
     ]
   },
-  "config": {
-    "bin-dir": "bin"
-  },
   "minimum-stability": "dev"
 }

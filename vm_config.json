@@ -1,0 +1,9 @@
+{
+  "hostname": "dot-filer",
+  "dbuser": "root",
+  "dbpasswd": "password",
+  "install_php": "yes",
+  "php_version": "7.4",
+  "enable_swap": "yes",
+  "swap_size_in_mb": "1024"
+}

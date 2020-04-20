@@ -653,12 +653,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-timer.git",
-                "reference": "d734fb0e9f4b68be8381e1dfd52dd440f0011f68"
+                "reference": "dc9368fae6ef2ffa57eba80a7410bcef81df6258"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-timer/zipball/d734fb0e9f4b68be8381e1dfd52dd440f0011f68",
-                "reference": "d734fb0e9f4b68be8381e1dfd52dd440f0011f68",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-timer/zipball/dc9368fae6ef2ffa57eba80a7410bcef81df6258",
+                "reference": "dc9368fae6ef2ffa57eba80a7410bcef81df6258",
                 "shasum": ""
             },
             "require": {
@@ -694,7 +694,7 @@
             "keywords": [
                 "timer"
             ],
-            "time": "2020-04-19T16:02:40+00:00"
+            "time": "2020-04-20T06:00:37+00:00"
         },
         {
             "name": "phpunit/php-token-stream",
@@ -751,12 +751,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "15d463ef30541f63938ea2b1936dc4dc2ca9d9f8"
+                "reference": "06164cfb34230644011d474e2417de4eee0dd374"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/15d463ef30541f63938ea2b1936dc4dc2ca9d9f8",
-                "reference": "15d463ef30541f63938ea2b1936dc4dc2ca9d9f8",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/06164cfb34230644011d474e2417de4eee0dd374",
+                "reference": "06164cfb34230644011d474e2417de4eee0dd374",
                 "shasum": ""
             },
             "require": {
@@ -776,7 +776,7 @@
                 "phpunit/php-file-iterator": "^3.0",
                 "phpunit/php-invoker": "^3.0",
                 "phpunit/php-text-template": "^2.0",
-                "phpunit/php-timer": "^3.1.2",
+                "phpunit/php-timer": "^3.1.4",
                 "sebastian/code-unit": "^1.0",
                 "sebastian/comparator": "^4.0",
                 "sebastian/diff": "^4.0",
@@ -831,7 +831,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2020-04-17T15:13:49+00:00"
+            "time": "2020-04-20T06:24:58+00:00"
         },
         {
             "name": "sebastian/code-unit",

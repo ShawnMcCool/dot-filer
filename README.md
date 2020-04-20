@@ -1,18 +1,18 @@
 # Dot-Filer
 
-Dot Filer is a PHP Linux dot file management tool built to provide a simple no-nonsense approach to a common scenario.
+Dot Filer is a PHP dot file management tool built to provide a no-nonsense approach to a common scenario.
 
 ## Why dot files?
 
-When a file or folder name is preceded with a dot "." it's considered a hidden file by Linux. This is merely a convenience that allows configuration and other files to not clutter up simple directory listings.
+When a file or folder name is preceded with a dot "." it's considered a hidden file by most operating systems. This is merely a convenience that allows configuration and other files to not clutter up simple directory listings.
 
 When applying configuration changes to a Linux installation, it's typical to work with files both in the user's home directory and other directories such as /etc.
 
 Not all important configuration files and folders begin with a dot. However they've come to be included in the umbrella term. 
 
-Many Linux users put much effort into the configuration of their systems and much of this configuration lies within simple text files.
+Many users put much effort into the configuration of their systems and much of this configuration lies within these text files.
 
-By backing these files up and versioning them we can prevent the loss of a lot of hard work and make it easier to deploy these configurations to other machines. 
+By backing these files up and versioning them we can prevent the loss of a lot of hard work and make it easier to deploy these configurations to other machines.
 
 # How do we manage the backups?
 

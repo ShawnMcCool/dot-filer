@@ -4,8 +4,7 @@ use DotFiler\Collections\Collection;
 
 final class Targets
 {
-    /** @var Collection */
-    private $paths;
+    private Collection $paths;
 
     public static function fromFile(string $filepath)
     {
