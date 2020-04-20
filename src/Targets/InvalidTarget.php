@@ -21,6 +21,8 @@ final class InvalidTarget
 
     public static function fromUnvalidatedTarget(UnvalidatedTarget $target): self
     {
-        return new static($target->toString());
+        return new static(
+            $target->toString()
+        );
     }
 }

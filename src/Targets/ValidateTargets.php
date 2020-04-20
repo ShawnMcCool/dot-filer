@@ -1,6 +1,6 @@
 <?php namespace DotFiler\Targets;
 
-final class TargetValidation
+final class ValidateTargets
 {
     private UnvalidatedTargets $targets;
 
@@ -9,25 +9,25 @@ final class TargetValidation
         $this->targets = $targets;
     }
 
-    public function validTargets(): ValidTargetCollection
+    public function validTargets(): ValidTargets
     {
-        return ValidTargetCollection::of(
+        return ValidTargets::fromValidator(
             $this->targets->paths()->filter(
                 fn(UnvalidatedTarget $unvalidated) => $this->isValidPath($unvalidated)
             )->map(
                 fn(UnvalidatedTarget $unvalidated) => ValidTarget::fromUnvalidatedTarget($unvalidated)
-            )->toArray()
+            )
         );
     }
 
-    public function invalidTargets(): InvalidTargetCollection
+    public function invalidTargets(): InvalidTargets
     {
-        return InvalidTargetCollection::of(
+        return InvalidTargets::fromValidator(
             $this->targets->paths()->filter(
                 fn(UnvalidatedTarget $unvalidated) => ! $this->isValidPath($unvalidated)
             )->map(
                 fn(UnvalidatedTarget $unvalidated) => InvalidTarget::fromUnvalidatedTarget($unvalidated)
-            )->toArray()
+            )
         );
     }
 

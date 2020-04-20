@@ -5,7 +5,7 @@
 use DotFiler\TextOutput\Ansi;
 use DotFiler\TextOutput\AnsiCodes;
 use DotFiler\Targets\ValidTarget;
-use DotFiler\Targets\TargetValidation;
+use DotFiler\Targets\ValidateTargets;
 use DotFiler\Targets\InvalidTarget;
 use DotFiler\Targets\UnvalidatedTargets;
 
@@ -14,14 +14,14 @@ require 'cli-bootstrap.php';
 # parse arguments
 [$targetFile, $backupRepo] = input(__FILE__, "<target-file> <backup-repo>");
 
-$targets = TargetValidation::for(
+$targets = ValidateTargets::for(
     UnvalidatedTargets::fromFile($targetFile)
 );
 
 $invalidTargets = $targets->invalidTargets();
 $validTargets = $targets->validTargets();
 
-if ($targets->invalidTargets()->count() > 0) {
+if ($invalidTargets->count() > 0) {
     echo Ansi::plain("\n# Dot Filer Target Summary\n\n");
 
     echo Ansi::format("## Valid Targets\n", AnsiCodes::$underline, AnsiCodes::$green);

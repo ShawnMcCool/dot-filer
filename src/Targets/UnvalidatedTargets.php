@@ -1,22 +1,24 @@
 <?php namespace DotFiler\Targets;
 
+use DotFiler\Collections\Collection;
+
 final class UnvalidatedTargets
 {
-    private UnvalidatedTargetCollection $targets;
+    private Collection $targets;
 
-    private function __construct(UnvalidatedTargetCollection $targets)
+    private function __construct(Collection $targets)
     {
         $this->targets = $targets;
     }
 
-    public function paths(): UnvalidatedTargetCollection
+    public function paths(): Collection
     {
         return $this->targets;
     }
 
     public static function fromFile(string $filepath): self
     {
-        /** @var UnvalidatedTargetCollection $targets */
+        /** @var Collection $targets */
         $targets = collect(
             file($filepath)
         )->map(
@@ -26,7 +28,7 @@ final class UnvalidatedTargets
         );
 
         return new static(
-            UnvalidatedTargetCollection::of($targets->toArray())
+            Collection::of($targets->toArray())
         );
     }
 }
