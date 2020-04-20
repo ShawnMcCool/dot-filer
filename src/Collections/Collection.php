@@ -7,8 +7,7 @@ use IteratorAggregate;
 
 class Collection implements IteratorAggregate, Countable, ArrayAccess
 {
-    /** @var array */
-    protected $items;
+    protected array $items;
 
     public function __construct(array $items = [])
     {
@@ -20,17 +19,17 @@ class Collection implements IteratorAggregate, Countable, ArrayAccess
         return new static($items);
     }
 
-    public static function empty(): Collection
+    public static function empty(): self
     {
         return new static;
     }
 
-    public static function list(...$items): Collection
+    public static function list(...$items): self
     {
         return new static($items);
     }
 
-    public function add($item): Collection
+    public function add($item): self
     {
         $items = $this->items;
         $items[] = $item;
@@ -77,7 +76,7 @@ class Collection implements IteratorAggregate, Countable, ArrayAccess
         return $this->copy()->items;
     }
 
-    public function copy(): Collection
+    public function copy(): self
     {
         return clone $this;
     }
@@ -87,7 +86,7 @@ class Collection implements IteratorAggregate, Countable, ArrayAccess
         return new static(array_map($f, $this->items));
     }
 
-    public function flatMap(callable $f): Collection
+    public function flatMap(callable $f): self
     {
         return new static(array_merge(...array_map($f, $this->items)));
     }
@@ -97,7 +96,7 @@ class Collection implements IteratorAggregate, Countable, ArrayAccess
         return array_reduce($this->items, $f, $initial);
     }
 
-    public function filter(?callable $f = null): Collection
+    public function filter(?callable $f = null): self
     {
         return is_null($f)
             ? new static(array_values(array_filter($this->items)))
@@ -119,17 +118,12 @@ class Collection implements IteratorAggregate, Countable, ArrayAccess
         return reset($this->items) ?: null;
     }
 
-    public function tail(): Collection
+    public function tail(): self
     {
         return new static(array_slice($this->items, 1));
     }
 
-    public function toDictionary(): Dictionary
-    {
-        return new Dictionary($this->toArray());
-    }
-
-    public function reverse(): Collection
+    public function reverse(): self
     {
         return new static(array_reverse($this->items));
     }

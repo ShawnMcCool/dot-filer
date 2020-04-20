@@ -20,9 +20,10 @@ abstract class TypedCollection extends Collection
      * of the appropriate type
      *
      * @param $item
-     * @return Collection
+     * @return TypedCollection|static
+     * @throws CollectionTypeError
      */
-    public function add($item): Collection
+    public function add($item): self
     {
         $this->guardType($item);
         return parent::add($item);
@@ -40,9 +41,9 @@ abstract class TypedCollection extends Collection
      * generic untyped collection will be returned instead.
      *
      * @param callable $f
-     * @return Collection
+     * @return TypedCollection|Collection
      */
-    public function map(callable $f): self
+    public function map(callable $f): Collection
     {
         try {
             return new static(array_map($f, $this->items));

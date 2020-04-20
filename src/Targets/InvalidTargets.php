@@ -9,19 +9,15 @@ final class InvalidTargets
         $this->targetPaths = $paths;
     }
 
-    public function allPaths(): InvalidTargetCollection
+    public function paths(): InvalidTargetCollection
     {
         return $this->targetPaths;
     }
 
-    public static function fromUnvalidatedTargets(UnvalidatedTargets $targets)
+    public static function fromUnvalidatedTargets(TargetValidation $targetValidation): self
     {
         return new static(
-            InvalidTargetCollection::of(
-                $targets->paths()->map(
-                    fn(UnvalidatedTargetPath $target) => InvalidTargetPath::fromUnvalidatedTargetPath($target)
-                )->toArray()
-            )
+            $targetValidation->invalidTargets()
         );
     }
 }
