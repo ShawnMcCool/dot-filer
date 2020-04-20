@@ -4,5 +4,5 @@ use DotFiler\Collections\TypedCollection;
 
 final class UnvalidatedTargetCollection extends TypedCollection
 {
-    protected string $collectionTypeClass = UnvalidatedTargetPath::class;
+    protected string $collectionTypeClass = UnvalidatedTarget::class;
 }

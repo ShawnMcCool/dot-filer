@@ -13,9 +13,9 @@ final class TargetValidation
     {
         return ValidTargetCollection::of(
             $this->targets->paths()->filter(
-                fn(UnvalidatedTargetPath $unvalidated) => $this->isValidPath($unvalidated)
+                fn(UnvalidatedTarget $unvalidated) => $this->isValidPath($unvalidated)
             )->map(
-                fn(UnvalidatedTargetPath $unvalidated) => ValidTargetPath::fromUnvalidatedTargetPath($unvalidated)
+                fn(UnvalidatedTarget $unvalidated) => ValidTarget::fromUnvalidatedTarget($unvalidated)
             )->toArray()
         );
     }
@@ -24,14 +24,14 @@ final class TargetValidation
     {
         return InvalidTargetCollection::of(
             $this->targets->paths()->filter(
-                fn(UnvalidatedTargetPath $unvalidated) => ! $this->isValidPath($unvalidated)
+                fn(UnvalidatedTarget $unvalidated) => ! $this->isValidPath($unvalidated)
             )->map(
-                fn(UnvalidatedTargetPath $unvalidated) => InvalidTargetPath::fromUnvalidatedTargetPath($unvalidated)
+                fn(UnvalidatedTarget $unvalidated) => InvalidTarget::fromUnvalidatedTarget($unvalidated)
             )->toArray()
         );
     }
 
-    private function isValidPath(UnvalidatedTargetPath $path): bool
+    private function isValidPath(UnvalidatedTarget $path): bool
     {
         return file_exists($path->toString());
     }

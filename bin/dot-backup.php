@@ -4,9 +4,9 @@
 # bootstrap cli
 use DotFiler\TextOutput\Ansi;
 use DotFiler\TextOutput\AnsiCodes;
-use DotFiler\Targets\ValidTargetPath;
+use DotFiler\Targets\ValidTarget;
 use DotFiler\Targets\TargetValidation;
-use DotFiler\Targets\InvalidTargetPath;
+use DotFiler\Targets\InvalidTarget;
 use DotFiler\Targets\UnvalidatedTargets;
 
 require 'cli-bootstrap.php';
@@ -27,7 +27,7 @@ if ($targets->invalidTargets()->count() > 0) {
     echo Ansi::format("## Valid Targets\n", AnsiCodes::$underline, AnsiCodes::$green);
 
     $validTargets->each(
-        function (ValidTargetPath $path) {
+        function (ValidTarget $path) {
             echo Ansi::green($path->toString() . "\n");
         }
     );
@@ -35,11 +35,13 @@ if ($targets->invalidTargets()->count() > 0) {
     echo Ansi::format("\n## Invalid Targets\n", AnsiCodes::$underline, AnsiCodes::$red);
 
     $invalidTargets->each(
-        function (InvalidTargetPath $path) {
+        function (InvalidTarget $path) {
             echo Ansi::red($path->toString() . "\n");
         }
     );
-
-    echo Ansi::plain("\nYou must resolve the invalid targets by either removing them from the target-file or ensuring that the file or directory exists.\n\n");
-    exit;
+    
+    echo Ansi::plain("\nYou have invalid targets in your target-file. You should probably remove them from the target-file or ensuring that the file or directory exists.\n");
+    echo Ansi::yellow("Would you like to skip these errors and process only the valid targets?\n");
+    confirm_prompt();
 }
+

@@ -25,9 +25,9 @@ function input($script, $parameters)
     return array_slice($arguments, 1, $argumentCount);
 }
 
-function confirm_prompt()
+function confirm_prompt(string $question = "Are you sure you want to do this?  Type 'yes' to continue: ")
 {
-    echo "Are you sure you want to do this?  Type 'yes' to continue: ";
+    echo $question;
     $handle = fopen("php://stdin", "r");
     $line = fgets($handle);
     if (trim($line) != 'yes') {

@@ -1,17 +1,17 @@
 <?php namespace DotFiler\Targets;
 
-final class ValidTargetPath
+final class ValidTarget
 {
-    private string $path;
+    private string $targetPath;
 
-    private function __construct(string $path)
+    private function __construct(string $targetPath)
     {
-        $this->path = $path;
+        $this->targetPath = $targetPath;
     }
 
     public function toString(): string
     {
-        return $this->path;
+        return $this->targetPath;
     }
 
     public function __toString(): string
@@ -19,8 +19,8 @@ final class ValidTargetPath
         return $this->toString();
     }
 
-    public static function fromUnvalidatedTargetPath(UnvalidatedTargetPath $path): self
+    public static function fromUnvalidatedTarget(UnvalidatedTarget $target): self
     {
-        return new static($path->toString());
+        return new static($target->toString());
     }
 }

@@ -2,16 +2,16 @@
 
 final class UnvalidatedTargets
 {
-    private UnvalidatedTargetCollection $targetPaths;
+    private UnvalidatedTargetCollection $targets;
 
-    private function __construct(UnvalidatedTargetCollection $paths)
+    private function __construct(UnvalidatedTargetCollection $targets)
     {
-        $this->targetPaths = $paths;
+        $this->targets = $targets;
     }
 
     public function paths(): UnvalidatedTargetCollection
     {
-        return $this->targetPaths;
+        return $this->targets;
     }
 
     public static function fromFile(string $filepath): self
@@ -20,7 +20,7 @@ final class UnvalidatedTargets
         $targets = collect(
             file($filepath)
         )->map(
-            fn($target) => UnvalidatedTargetPath::fromString(
+            fn($target) => UnvalidatedTarget::fromString(
                 trim($target)
             )
         );
