@@ -15,7 +15,7 @@ class Collection implements IteratorAggregate, Countable, ArrayAccess
         $this->items = $items;
     }
 
-    public static function of(array $items): Collection
+    public static function of(array $items): self
     {
         return new static($items);
     }
@@ -82,7 +82,7 @@ class Collection implements IteratorAggregate, Countable, ArrayAccess
         return clone $this;
     }
 
-    public function map(callable $f): Collection
+    public function map(callable $f): self
     {
         return new static(array_map($f, $this->items));
     }

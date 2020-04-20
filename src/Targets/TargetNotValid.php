@@ -1,4 +1,4 @@
-<?php namespace DotFiler;
+<?php namespace DotFiler\Targets;
 
 use Exception;
 
