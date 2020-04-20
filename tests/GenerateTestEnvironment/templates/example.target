@@ -1,2 +1,2 @@
-path/config-directory
-path/example-file
+tests/test-environment/config-directory
+tests/test-environment/example-file.txt

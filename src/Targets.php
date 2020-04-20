@@ -8,11 +8,21 @@ final class Targets
 
     public static function fromFile(string $filepath)
     {
-        return new Targets(
-            Collection::of(
-                file($filepath)
-            )
+        $targets = collect(
+            file($filepath)
+        )->map(
+            fn($target) => trim($target)
         );
+        
+        $targets->each(
+            function($target) {
+                if ( ! file_exists($target)) {
+                    throw TargetNotValid::targetDoesNotExist($target);
+                }
+            }
+        );
+            
+        return new Targets($targets);
     }
 
     private function __construct(Collection $paths)

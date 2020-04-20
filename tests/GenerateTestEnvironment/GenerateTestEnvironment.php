@@ -67,7 +67,10 @@ final class GenerateTestEnvironment
 
     private function buildEnvironment()
     {
-        if (is_dir($this->templatePath) && ! is_dir($this->targetPath)) {
+        if (
+            is_dir($this->templatePath) &&
+            ! is_dir($this->targetPath)
+        ) {
             $this->recursiveCopy(realpath($this->templatePath), $this->targetPath);
         }
     }

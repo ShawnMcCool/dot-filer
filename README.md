@@ -2,6 +2,12 @@
 
 Dot Filer is a PHP dot file management tool built to provide a no-nonsense approach to a common scenario.
 
+## Development Todo
+
+- validate all links in the target file
+- find all links that require action
+- move files to target directory
+
 ## Why dot files?
 
 When a file or folder name is preceded with a dot "." it's considered a hidden file by most operating systems. This is merely a convenience that allows configuration and other files to not clutter up simple directory listings.
