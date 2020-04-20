@@ -9,7 +9,7 @@ class TargetsTest extends DotFilerTestCase
     function test_can_be_created_from_file()
     {
         return;
-        $targets = Targets::fromFile('..');
+        $targets = Targets::fromFile($this->targetFile);
         self::assertCount(2, $targets->allPaths());
     }
 }
