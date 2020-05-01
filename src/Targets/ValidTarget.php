@@ -4,9 +4,9 @@ final class ValidTarget
 {
     private string $targetPath;
 
-    private function __construct(string $targetPath)
+    private function __construct(string $path)
     {
-        $this->targetPath = $targetPath;
+        $this->targetPath = $path;
     }
 
     public function toString(): string

@@ -2,16 +2,16 @@
 
 final class UnvalidatedTarget
 {
-    private string $targetPath;
+    private string $path;
 
-    private function __construct(string $targetPath)
+    private function __construct(string $path)
     {
-        $this->targetPath = $targetPath;
+        $this->path = $path;
     }
 
     public function toString(): string
     {
-        return $this->targetPath;
+        return $this->path;
     }
 
     public function __toString(): string
@@ -19,8 +19,8 @@ final class UnvalidatedTarget
         return $this->toString();
     }
 
-    public static function fromString(string $targetPath): self
+    public static function fromString(string $path): self
     {
-        return new static($targetPath);
+        return new static($path);
     }
 }

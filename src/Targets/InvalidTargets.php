@@ -11,7 +11,7 @@ final class InvalidTargets
         $this->targetPaths = $paths;
     }
 
-    public function allPaths(): Collection
+    public function paths(): Collection
     {
         return $this->targetPaths;
     }
@@ -26,8 +26,19 @@ final class InvalidTargets
         $this->targetPaths->each($f);
     }
 
-    public static function fromValidator(Collection $invalidTargets): self
+    public static function fromUnvalidatedTargets(UnvalidatedTargets $unvalidatedTargets)
     {
+        $invalidTargets = $unvalidatedTargets->paths()->filter(
+            fn(UnvalidatedTarget $unvalidated) => static::isInvalidPath($unvalidated)
+        )->map(
+            fn(UnvalidatedTarget $unvalidated) => InvalidTarget::fromUnvalidatedTarget($unvalidated)
+        );
+
         return new static($invalidTargets);
+    }
+
+    private static function isInvalidPath(UnvalidatedTarget $path): bool
+    {
+        return ! file_exists($path->toString());
     }
 }

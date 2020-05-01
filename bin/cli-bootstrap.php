@@ -25,12 +25,17 @@ function input($script, $parameters)
     return array_slice($arguments, 1, $argumentCount);
 }
 
-function confirm_prompt(string $question = "Are you sure you want to do this?  Type 'yes' to continue: ")
+function confirm_prompt(string $question = "Are you sure you want to do this?", string $default = "y")
 {
-    echo $question;
+    echo "\n" . $question .  " [y]/n ";
     $handle = fopen("php://stdin", "r");
-    $line = fgets($handle);
-    if (trim($line) != 'yes') {
+    $line = trim(fgets($handle));
+
+    if ($line == '') {
+        $line = $default;
+    }
+
+    if ($line != 'y') {
         echo "aborted by user...\n\n";
         exit;
     }

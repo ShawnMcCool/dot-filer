@@ -18,8 +18,7 @@ final class UnvalidatedTargets
 
     public static function fromFile(string $filepath): self
     {
-        /** @var Collection $targets */
-        $targets = collect(
+        $unvalidatedTargets = collect(
             file($filepath)
         )->map(
             fn($target) => UnvalidatedTarget::fromString(
@@ -27,8 +26,6 @@ final class UnvalidatedTargets
             )
         );
 
-        return new static(
-            Collection::of($targets->toArray())
-        );
+        return new static($unvalidatedTargets);
     }
 }
