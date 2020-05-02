@@ -1,8 +1,8 @@
 <?php namespace DotFiler\Collections;
 
-use Exception;
+use DotFiler\DotFilerException;
 
-final class CollectionTypeError extends Exception
+final class CollectionTypeError extends DotFilerException
 {
     public static function cannotMergeDifferentTypes($one, $two)
     {
@@ -16,20 +16,6 @@ Can not merge collection objects which have different types.
 
 Attempted to merge a collection of type {$oneType} containing {$oneCount} items with\n
 a collection of {$twoType} containing {$twoCount} elements.
-EOF;
-
-        return new static($message);
-    }
-
-    public static function canNotAddItemOfIncorrectType($item, string $collectionType, TypedCollection $collection)
-    {
-        $itemType = is_object($item) ? get_class($item) : gettype($item);
-        $collectionClass = get_class($collection);
-
-        $message=<<<EOF
-Can not add an item of type {$itemType} to the typed collection {$collectionClass}.
-
-Collection will only accept items of type {$collectionType}.
 EOF;
 
         return new static($message);

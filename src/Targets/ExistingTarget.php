@@ -29,20 +29,20 @@ final class ExistingTarget implements TargetPath
      */
     public static function locate(ConfiguredTarget $target): ?self
     {
-        $path = realpath($target->path());
-        
-        if ( ! static::pathExists($path)) {
-            return null;
+        // the path to the file with ./ and ../ resolved
+        // the path to the target if the file is a link
+        $resolvedPath = realpath($target->path());
+
+        // if it's a link then we just want the path of the link
+        if(is_link($target->path())) {
+            return new static($target->path());
         }
         
-        return new static($path);
-    }
-
-    /**
-     * Determine if a target exists by locating it on the filesystem.
-     */
-    private static function pathExists(string $path): bool
-    {
-        return file_exists($path);
+        // if it's not a link then resolve all path symbols 
+        if (file_exists($resolvedPath)) {
+            return new static($resolvedPath);
+        }
+        
+        return null;
     }
 }

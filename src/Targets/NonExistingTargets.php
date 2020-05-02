@@ -21,16 +21,6 @@ final class NonExistingTargets
         return $this->targets;
     }
 
-    public function count(): int
-    {
-        return $this->targets->count();
-    }
-
-    public function each(callable $f): void
-    {
-        $this->targets->each($f);
-    }
-
     /**
      * Return a NonExistingTargets collection that contains all targets
      * from the configured collection that we have not been able to locate.

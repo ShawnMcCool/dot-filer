@@ -49,7 +49,7 @@ final class Error implements Result
         );
     }
 
-    public static function couldNotMoveTarget(UnprocessedTarget $target, RepoPath $repoPath): self
+    public static function couldNotMoveTarget(TargetPath $target, RepoPath $repoPath): self
     {
         $repoTargetPath = $repoPath->repoTargetPath($target);
 
@@ -60,7 +60,7 @@ final class Error implements Result
         );
     }
 
-    public static function couldNotCreateLink(UnprocessedTarget $target, RepoPath $repoPath): self
+    public static function couldNotCreateLink(TargetPath $target, RepoPath $repoPath): self
     {
         $repoTargetPath = $repoPath->repoTargetPath($target);
 
@@ -71,7 +71,7 @@ final class Error implements Result
         );
     }
 
-    public static function couldNotVerifySymlinkValidity(UnprocessedTarget $target, RepoPath $repoPath, string $linkTarget): self
+    public static function couldNotVerifySymlinkValidity(TargetPath $target, RepoPath $repoPath, string $linkTarget): self
     {
         $repoTargetPath = $repoPath->repoTargetPath($target);
 
@@ -82,7 +82,7 @@ final class Error implements Result
         );
     }
 
-    public static function couldNotCreateRepoDirectory(UnprocessedTarget $target, RepoPath $repoPath, string $repoTargetDirName)
+    public static function couldNotCreateRepoDirectory(TargetPath $target, RepoPath $repoPath, string $repoTargetDirName)
     {
         $repoTargetPath = $repoPath->repoTargetPath($target);
 

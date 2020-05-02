@@ -1,0 +1,53 @@
+#!/usr/bin/php
+<?php
+
+# bootstrap cli
+use GetOpt\GetOpt;
+use GetOpt\Option;
+use GetOpt\Command;
+use DotFiler\DotFiler;
+use DotFiler\Targets\RepoPath;
+use DotFiler\Targets\TargetFile;
+use DotFiler\TextFormatting\TextTable;
+
+require 'cli-bootstrap.php';
+
+# command line arguments
+// in constructor
+$cli = new GetOpt();
+
+$cli->addOptions(
+    [
+        Option::create('h', 'help', GetOpt::NO_ARGUMENT)
+              ->setDescription('Show this help'),
+    ]
+);
+
+$cli->addCommand(Command::create('backup', function () {
+    echo 'When you see this message the setup works.' . PHP_EOL;
+})->setDescription('Backup all targets to the repo.'));
+
+$cli->addCommand(Command::create('status', function () {
+    echo 'When you see this message the setup works.' . PHP_EOL;
+})->setDescription('View the status of all targets.'));
+
+$cli->process();
+
+die($cli->getHelpText());
+
+$dotFiler = new DotFiler(
+    TargetFile::fromString($targetFileString),
+    RepoPath::fromString($repoPathString)
+);
+
+if (getopt('b')) {
+    die('bob');
+    $results = $dotFiler->processBackup();
+}
+
+echo "\n" . TextTable::make()
+                     ->withTitle('Backup Targets')
+                     ->withHeaders('Path', 'Status')
+                     ->withRows(
+                         $dotFiler->allTargetStatuses()
+                     )->toString();

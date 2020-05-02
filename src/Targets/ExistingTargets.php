@@ -16,20 +16,10 @@ final class ExistingTargets
     {
         $this->targets = $targets;
     }
-    
+
     public function all(): Collection
     {
         return $this->targets;
-    }
-
-    public function count(): int
-    {
-        return $this->targets->count();
-    }
-
-    public function each(callable $f): void
-    {
-        $this->targets->each($f);
     }
 
     /**
@@ -38,12 +28,12 @@ final class ExistingTargets
      */
     public static function fromConfigured(ConfiguredTargets $configuredTargets)
     {
-        $existingTargets =
-            $configuredTargets->all()
-                              ->map(
-                                   fn(ConfiguredTarget $configuredTarget) => ExistingTarget::locate($configuredTarget)
-                               )->filter();
-
-        return new static($existingTargets);
+        return new static(
+            $configuredTargets
+                ->all()
+                ->map(
+                    fn(ConfiguredTarget $configuredTarget) => ExistingTarget::locate($configuredTarget)
+                )->filter()
+        );
     }
 }

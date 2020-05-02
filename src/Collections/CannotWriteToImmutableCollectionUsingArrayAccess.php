@@ -1,5 +1,5 @@
 <?php namespace DotFiler\Collections;
 
-final class CannotWriteToImmutableCollectionUsingArrayAccess extends \Exception
-{
-}
+use DotFiler\DotFilerException;
+
+final class CannotWriteToImmutableCollectionUsingArrayAccess extends DotFilerException {}

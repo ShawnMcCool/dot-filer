@@ -71,6 +71,14 @@ class Collection implements IteratorAggregate, Countable, ArrayAccess
         return count($this->items);
     }
 
+    public function merge(Collection $that)
+    {
+        if (get_class($this) !== get_class($that)) {
+            throw CollectionTypeError::cannotMergeDifferentTypes($this, $that);
+        }
+        return new static(array_merge($this->items, $that->items));
+    }
+    
     public function toArray(): array
     {
         return $this->copy()->items;

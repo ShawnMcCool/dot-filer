@@ -3,12 +3,12 @@
 use DotFiler\Collections\Collection;
 
 /**
- * A collection of unprocessed targets.
+ * A collection of managed targets.
  *
- * A target is unprocessed if it hasn't been moved into the
- * dot file repository and replaced by a symlink.
+ * A managed target is one whose original location has been replaced
+ * by a symlink that points to a mirrored location within the repo path.
  */
-final class UnprocessedTargets
+final class ManagedTargets
 {
     private Collection $targets;
 
@@ -22,13 +22,13 @@ final class UnprocessedTargets
         return $this->targets;
     }
 
-    public static function fromExisting(ExistingTargets $existingTargets)
+    public static function fromExisting(ExistingTargets $existingTargets, RepoPath $repoPath)
     {
         return new static(
             $existingTargets
                 ->all()
                 ->map(
-                    fn(ExistingTarget $existing) => UnprocessedTarget::check($existing)
+                    fn(ExistingTarget $existing) => ManagedTarget::check($existing, $repoPath)
                 )->filter()
         );
     }

@@ -1,6 +1,6 @@
 {
   "name": "shawnmccool/dot-filer",
-  "description": "A PHP script to help manage dot files in a git repository.",
+  "description": "A tool to backup and restore dot files.",
   "type": "project",
   "authors": [
     {
@@ -9,7 +9,9 @@
     }
   ],
   "require": {
-    "php": "^7.4"
+    "php": "^7.4",
+    "ext-json": "*",
+    "ulrichsg/getopt-php": "dev-master"
   },
   "require-dev": {
     "phpunit/phpunit": "^9"

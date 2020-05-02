@@ -1,4 +1,4 @@
-<?php namespace DotFiler\TextOutput;
+<?php namespace DotFiler\TextFormatting;
 
 final class AnsiCodes
 {

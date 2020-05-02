@@ -13,4 +13,9 @@ final class PathNotFound extends DotFilerException
     {
         return new static("Repo directory not found: '{$repoPath}'");
     }
+
+    public static function pathNotFoundInTargetFile(string $path)
+    {
+        return new static("The path '{$path}' was not found in the target file.");
+    }
 }

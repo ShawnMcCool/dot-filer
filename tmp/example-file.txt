@@ -1,1 +1,0 @@
-/vagrant/tmp/repo/vagrant/tmp/example-file.txt

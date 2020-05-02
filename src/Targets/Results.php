@@ -16,13 +16,36 @@ final class Results
         return $this->results;
     }
 
+    public function allMessages(): string
+    {
+        return
+            $this->results
+                ->map(
+                    fn(Result $result) => $result->message()
+                )->implode("\n");
+    }
+
+    public function successMessages(): string
+    {
+        return
+            $this->results
+                ->filter(
+                    fn(Result $result) => $result instanceof Error
+                )
+                ->map(
+                    fn(Result $result) => $result->message()
+                )->implode("\n");
+    }
+
     public function errorMessages(): string
     {
-        return 
+        return
             $this->results
-            ->all()
-            ->map(
-                fn(Result $result) => $result->message()
-            )->implode("\n");
+                ->filter(
+                    fn(Result $result) => $result instanceof Error
+                )
+                ->map(
+                    fn(Result $result) => $result->message()
+                )->implode("\n");
     }
 }

@@ -1,4 +1,4 @@
-<?php namespace DotFiler\TextOutput;
+<?php namespace DotFiler\TextFormatting;
 
 use DotFiler\Collections\Collection;
 
