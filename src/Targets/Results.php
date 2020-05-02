@@ -15,4 +15,14 @@ final class Results
     {
         return $this->results;
     }
+
+    public function errorMessages(): string
+    {
+        return 
+            $this->results
+            ->all()
+            ->map(
+                fn(Result $result) => $result->message()
+            )->implode("\n");
+    }
 }
