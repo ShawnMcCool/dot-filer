@@ -2,37 +2,43 @@
 
 use DotFiler\Collections\Collection;
 
+/**
+ * A collection of unprocessed targets.
+ *
+ * A target is unprocessed if it hasn't been moved into the
+ * dot file repository and replaced by a symlink.
+ */
 final class UnprocessedTargets
 {
-    private Collection $targetPaths;
+    private Collection $targets;
 
-    private function __construct(Collection $paths)
+    private function __construct(Collection $targets)
     {
-        $this->targetPaths = $paths;
+        $this->targets = $targets;
     }
 
-    public function allPaths(): Collection
+    public function all(): Collection
     {
-        return $this->targetPaths;
+        return $this->targets;
     }
 
     public function count(): int
     {
-        return $this->targetPaths->count();
+        return $this->targets->count();
     }
 
     public function each(callable $f): void
     {
-        $this->targetPaths->each($f);
+        $this->targets->each($f);
     }
 
-    public static function fromValidTargets(ValidTargets $validTargets)
+    public static function fromExisting(ExistingTargets $existingTargets)
     {
-        $unprocessedTargets = $validTargets->paths()->filter(
-            fn($targetPath) => ! is_link($targetPath)
-        )->map(
-            fn($targetPath) => UnprocessedTarget::fromValidTarget($targetPath)
-        );
+        $unprocessedTargets =
+            $existingTargets->all()
+                            ->map(
+                             fn(ExistingTarget $existing) => UnprocessedTarget::check($existing)
+                         )->filter();
 
         return new static($unprocessedTargets);
     }

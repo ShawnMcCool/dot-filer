@@ -1,6 +1,6 @@
 <?php namespace Tests\DotFiler;
 
-use DotFiler\Targets\UnvalidatedTargets;
+use DotFiler\Targets\ConfiguredTargets;
 
 class TargetsTest extends DotFilerTestCase
 {
@@ -8,7 +8,7 @@ class TargetsTest extends DotFilerTestCase
 
     function test_can_be_created_from_file()
     {
-        $targets = UnvalidatedTargets::fromFile($this->targetFile);
-        self::assertCount(2, $targets->paths());
+        $targets = ConfiguredTargets::fromFile($this->targetFile);
+        self::assertCount(2, $targets->all());
     }
 }

@@ -1,17 +1,22 @@
 <?php namespace DotFiler\Targets;
 
+/**
+ * An unprocessed target is a file or directory that
+ * is specified as a backup target that has not yet been
+ * replaced by a symbolic link to the dotfile repository.
+ */
 final class UnprocessedTarget
 {
-    private string $targetPath;
+    private string $path;
 
-    private function __construct(string $targetPath)
+    private function __construct(string $path)
     {
-        $this->targetPath = $targetPath;
+        $this->path = $path;
     }
 
     public function toString(): string
     {
-        return $this->targetPath;
+        return $this->path;
     }
 
     public function __toString(): string
@@ -19,8 +24,25 @@ final class UnprocessedTarget
         return $this->toString();
     }
 
-    public static function fromValidTarget(ValidTarget $target): self
+    /**
+     * Return an UnprocessedTarget if the valid target is determined
+     * to not be a symlink that identifies a path inside the config repo.
+     */
+    public static function check(ExistingTarget $target): ?self
     {
-        return new static($target->toString());
+        if (static::isUnprocessed($target)) {
+            return new static($target->path());
+        }
+        
+        return null;
+    }
+
+    /**
+     * Determine if a target is unprocessed by verifying that a
+     * symlink exists at the specified path.
+     */
+    private static function isUnprocessed(ExistingTarget $target): bool
+    {
+        return ! is_link($target->path());
     }
 }
