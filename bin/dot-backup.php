@@ -3,28 +3,32 @@
 
 # bootstrap cli
 use DotFiler\TextOutput\Ansi;
-use DotFiler\Targets\ExistingTarget;
+use DotFiler\Targets\RepoPath;
+use DotFiler\Targets\TargetFile;
 use DotFiler\TextOutput\AnsiCodes;
+use DotFiler\Targets\ExistingTarget;
 use DotFiler\Targets\ExistingTargets;
-use DotFiler\Targets\NonExistingTarget;
-use DotFiler\Targets\NonExistingTargets;
 use DotFiler\Targets\ValidateTargets;
 use DotFiler\Targets\TargetProcessor;
+use DotFiler\Targets\NonExistingTarget;
 use DotFiler\Targets\ConfiguredTargets;
+use DotFiler\Targets\NonExistingTargets;
 use DotFiler\Targets\UnprocessedTargets;
-use DotFiler\Targets\FindUnprocessedTargets;
 
 require 'cli-bootstrap.php';
 
 # parse arguments
-[$targetFile, $backupRepo] = input(__FILE__, "<target-file> <backup-repo>");
+[$targetFileString, $repoPathString] = input(__FILE__, "<target-file> <repo-path>");
 
-$configured = ConfiguredTargets::fromFile($targetFile);
+$targetFile = TargetFile::fromString($targetFileString);
+$repoPath = RepoPath::fromString($repoPathString);
+
+$configured = ConfiguredTargets::fromTargetFile($targetFile);
 $valid = ExistingTargets::fromConfigured($configured);
 $invalid = NonExistingTargets::fromConfigured($configured);
-$unprocessed = UnprocessedTargets::fromExisting($valid);
+$unprocessed = UnprocessedTargets::fromExisting($valid, $repoPath);
 
-//$targets = new TargetProcessor($backupRepo);
+$targets = new TargetProcessor($repoPath);
 dd($unprocessed);
 
 
@@ -33,8 +37,7 @@ die('end');
 $bypassConfirmations = (bool)getopt('f');
 
 
-
-$unvalidatedTargets = ConfiguredTargets::fromFile($targetFile);
+$unvalidatedTargets = ConfiguredTargets::fromTargetFile($targetFile);
 
 $validTargets = ExistingTargets::fromConfigured($unvalidatedTargets);
 $invalidTargets = NonExistingTargets::fromConfigured($unvalidatedTargets);

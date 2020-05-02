@@ -2,23 +2,18 @@
 
 final class TargetProcessor
 {
-    private string $repoPath;
+    private RepoPath $repoPath;
 
-    public function __construct(string $repoPath)
+    public function __construct(RepoPath $repoPath)
     {
-        $repoPath = realpath($repoPath);
-        
-        if ( ! $repoPath || ! is_dir($repoPath)) {
-            throw PathNotFound::repoDirectory($repoPath);
-        }
-        
         $this->repoPath = $repoPath;
     }
 
     public function process(UnprocessedTargets $targets)
     {
-        $targets->each(
-            fn(UnprocessedTarget $target) => $this->
-        );
+        die('bob');
+//        $targets->each(
+//            fn(UnprocessedTarget $target) => $this->
+//        );
     }
 }

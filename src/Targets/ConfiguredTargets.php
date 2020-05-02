@@ -3,10 +3,10 @@
 use DotFiler\Collections\Collection;
 
 /**
- * A collection of targets straight from the target file. 
- * 
+ * A collection of targets straight from the target file.
+ *
  * A configured target is an unprocessed file path. It is the first step
- * of a target's lifespan directly loaded from the target file. 
+ * of a target's lifespan directly loaded from the target file.
  */
 final class ConfiguredTargets
 {
@@ -29,19 +29,16 @@ final class ConfiguredTargets
      * Create a collection of configured targets. This fails if the target
      * file does not exist.
      */
-    public static function fromFile(string $filepath): self
+    public static function fromTargetFile(TargetFile $targetFile): self
     {
-        if ( ! realpath($filepath)) {
-            throw PathNotFound::targetsFile($filepath);
-        }
-        
-        $configuredTargets = collect(
-            file($filepath)
-        )->map(
-            fn($path) => ConfiguredTarget::fromPath(
-                trim($path)
-            )
-        );
+
+        $configuredTargets =
+            $targetFile->contents()
+                       ->map(
+                           fn($path) => ConfiguredTarget::fromPath(
+                               trim($path)
+                           )
+                       );
 
         return new static($configuredTargets);
     }

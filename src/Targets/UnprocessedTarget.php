@@ -28,9 +28,9 @@ final class UnprocessedTarget
      * Return an UnprocessedTarget if the valid target is determined
      * to not be a symlink that identifies a path inside the config repo.
      */
-    public static function check(ExistingTarget $target): ?self
+    public static function check(ExistingTarget $target, RepoPath $repoPath): ?self
     {
-        if (static::isUnprocessed($target)) {
+        if (static::isUnprocessed($target, $repoPath)) {
             return new static($target->path());
         }
         
@@ -41,8 +41,9 @@ final class UnprocessedTarget
      * Determine if a target is unprocessed by verifying that a
      * symlink exists at the specified path.
      */
-    private static function isUnprocessed(ExistingTarget $target): bool
+    private static function isUnprocessed(ExistingTarget $target, RepoPath $repoPath): bool
     {
-        return ! is_link($target->path());
+        return ! is_link($target->path()) && // if it's not a link
+            ! $repoPath->containsTarget($target);
     }
 }

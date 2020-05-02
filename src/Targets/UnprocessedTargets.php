@@ -32,12 +32,12 @@ final class UnprocessedTargets
         $this->targets->each($f);
     }
 
-    public static function fromExisting(ExistingTargets $existingTargets)
+    public static function fromExisting(ExistingTargets $existingTargets, RepoPath $repoPath)
     {
         $unprocessedTargets =
             $existingTargets->all()
                             ->map(
-                             fn(ExistingTarget $existing) => UnprocessedTarget::check($existing)
+                             fn(ExistingTarget $existing) => UnprocessedTarget::check($existing, $repoPath)
                          )->filter();
 
         return new static($unprocessedTargets);

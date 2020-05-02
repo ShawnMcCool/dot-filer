@@ -29,18 +29,20 @@ final class ExistingTarget
      */
     public static function locate(ConfiguredTarget $target): ?self
     {
-        if ( ! static::pathExists($target)) {
+        $path = realpath($target->path());
+        
+        if ( ! static::pathExists($path)) {
             return null;
         }
         
-        return new static($target->path());
+        return new static($path);
     }
 
     /**
      * Determine if a target exists by locating it on the filesystem.
      */
-    private static function pathExists(ConfiguredTarget $target): bool
+    private static function pathExists(string $path): bool
     {
-        return file_exists($target->path());
+        return file_exists($path);
     }
 }
