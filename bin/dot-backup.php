@@ -2,6 +2,7 @@
 <?php
 
 # bootstrap cli
+use DotFiler\Targets\Result;
 use DotFiler\TextOutput\Ansi;
 use DotFiler\Targets\RepoPath;
 use DotFiler\Targets\TargetFile;
@@ -14,11 +15,14 @@ use DotFiler\Targets\NonExistingTarget;
 use DotFiler\Targets\ConfiguredTargets;
 use DotFiler\Targets\NonExistingTargets;
 use DotFiler\Targets\UnprocessedTargets;
+use Tests\DotFiler\GenerateTestEnvironment\GenerateTestEnvironment;
 
 require 'cli-bootstrap.php';
 
 # parse arguments
 [$targetFileString, $repoPathString] = input(__FILE__, "<target-file> <repo-path>");
+
+GenerateTestEnvironment::generate();
 
 $targetFile = TargetFile::fromString($targetFileString);
 $repoPath = RepoPath::fromString($repoPathString);
@@ -29,9 +33,15 @@ $invalid = NonExistingTargets::fromConfigured($configured);
 $unprocessed = UnprocessedTargets::fromExisting($valid, $repoPath);
 
 $targets = new TargetProcessor($repoPath);
-dd($unprocessed);
+$results = $targets->process($unprocessed);
 
+$resultMessages =
+    $results->all()
+            ->map(
+                fn(Result $result) => $result->message()
+            )->implode("\n");
 
+die($resultMessages);
 die('end');
 
 $bypassConfirmations = (bool)getopt('f');

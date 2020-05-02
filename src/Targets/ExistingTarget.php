@@ -4,7 +4,7 @@
  * An existing target contains a path for a directory or file
  * that we have verified exists on the filesystem. 
  */
-final class ExistingTarget
+final class ExistingTarget implements TargetPath
 {
     private string $path;
 

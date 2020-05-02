@@ -5,7 +5,7 @@
  * is specified as a backup target that has not yet been
  * replaced by a symbolic link to the dotfile repository.
  */
-final class UnprocessedTarget
+final class UnprocessedTarget implements TargetPath
 {
     private string $path;
 
@@ -14,14 +14,14 @@ final class UnprocessedTarget
         $this->path = $path;
     }
 
-    public function toString(): string
+    public function path(): string
     {
         return $this->path;
     }
 
     public function __toString(): string
     {
-        return $this->toString();
+        return $this->path();
     }
 
     /**

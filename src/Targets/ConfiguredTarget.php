@@ -4,7 +4,7 @@
  * A configured target contains a path for a directory or file
  * that has not been verified to either exist or not exist.
  */
-final class ConfiguredTarget
+final class ConfiguredTarget implements TargetPath
 {
     private string $path;
 

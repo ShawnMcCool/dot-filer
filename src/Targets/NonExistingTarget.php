@@ -4,7 +4,7 @@
  * A non existing target's path could not be located on
  * the filesystem.
  */
-final class NonExistingTarget
+final class NonExistingTarget implements TargetPath
 {
     private string $path;
 
