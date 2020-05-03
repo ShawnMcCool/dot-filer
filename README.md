@@ -7,10 +7,12 @@ Dot Filer is a PHP dot file management tool built to provide a no-nonsense appro
     - [The Backup Model](#the-backup-model)
     - [The Centralized Repository](#the-centralized-repository)
     - [Target Files](#target-files)
-- [Procedures](#procedures)
-    - [Overview](#overview)
-    - [Backup](#backup)
-    - [Restore](#restore)
+- [Usage](#usage)
+    - [Installation](#installation)
+    - [Procedures](#procedures)
+        - [Overview](#overview-1)
+        - [Backup](#backup)
+        - [Restore](#restore)
 - [Development](#development)
     - [Maintainers](#maintainers)
     - [Testing](#testing)
@@ -47,9 +49,21 @@ These target files are necessary for all Dot-Filer operations because they provi
 
 Your repo can contain many target files. They're used as a command line argument for backup and restore commands. For example, it's entirely possible that you have a master computer that you want to back up configurations from. Then you may want to distribute these configurations to many machines.. but not ALL configurations. It's possible to have a large target file for backup and small target files for restoration of only a few configurations.
 
-## Procedures
+## Usage
 
-### Overview
+### Installation
+
+- Install PHP
+- Download this repository either by cloning it or [downloading the files](https://github.com/ShawnMcCool/dot-filer/archive/master.zip).
+- For convenience...
+    - add the repository's bin/ directory to your PATH.
+    - symlink bin/dotfiler to /usr/local/bin
+    - create a shell script which contains `/the/path/to/dotfiler $1 <your-target-file> <your-repo-file>` so that you only have to run `yourscript.sh backup` `yourscript.sh overview`. It's Linux, do what you want to do. 
+ 
+
+### Procedures
+
+#### Overview
 
 The overview will show you the status of each path in the target file as it relates to backup and restore operations.
 
@@ -57,7 +71,7 @@ The overview will show you the status of each path in the target file as it rela
 $ dotfiler overview <target-file> <repo-path>
 ```
 
-### Backup
+#### Backup
 
 The backup procedure processes each target from the target file. If it finds one that is not already managed then it will move the target to the repository and create a symlink at its original position.
 
@@ -65,7 +79,7 @@ The backup procedure processes each target from the target file. If it finds one
 $ dotfiler backup <target-file> <repo-path>
 ```
 
-### Restore
+#### Restore
 
 During restoration any target file that does not exist or does not exist as a symlink to the target's repo path will be destroyed and a new symlink that points to the target's repo path will take its place.
 
