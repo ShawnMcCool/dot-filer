@@ -9,7 +9,7 @@ use DotFiler\Collections\Collection;
  * and there's no permission issue or unwanted files in the way
  * of its transition into management.
  */
-final class ProcessableTargets
+final class BackupableTargets
 {
     private Collection $targets;
 
@@ -29,7 +29,7 @@ final class ProcessableTargets
             $unprocessedTargets
                 ->all()
                 ->map(
-                    fn(UnprocessedTarget $unprocessed) => ProcessableTarget::check($unprocessed, $repoPath)
+                    fn(UnprocessedTarget $unprocessed) => BackupableTarget::check($unprocessed, $repoPath)
                 )->filter()
         );
     }

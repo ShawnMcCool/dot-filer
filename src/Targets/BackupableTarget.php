@@ -6,7 +6,7 @@
  * become managed and that has valid permissions and
  * available room in the repo directory.
  */
-final class ProcessableTarget implements TargetPath
+final class BackupableTarget implements TargetPath
 {
     private string $path;
 

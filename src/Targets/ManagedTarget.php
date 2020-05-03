@@ -42,12 +42,6 @@ final class ManagedTarget implements TargetPath
 
     private static function symlinkPointsToRepoTargetPath(string $path, string $repoTargetPath)
     {
-        $resolvedPath = realpath($path);
-        
-        if ($resolvedPath != $repoTargetPath) {
-            dd("{$resolvedPath}  !=  {$repoTargetPath}");
-        }
-        die('butt');
-        return $path == $repoTargetPath;
+        return realpath($path) == $repoTargetPath;
     }
 }

@@ -40,12 +40,12 @@ final class Error implements Result
         );
     }
 
-    public static function targetPathMustBeWritable(UnprocessedTarget $target, RepoPath $repoPath): self
+    public static function targetPathMustBeWritable(TargetPath $target, RepoPath $repoPath): self
     {
         return new static(
             $target,
             $repoPath,
-            "Target path must be writable to create the symlink back to the repo. This often exists outside of ~."
+            "Target path must be writable to create the symlink back to the repo."
         );
     }
 
@@ -90,6 +90,17 @@ final class Error implements Result
             $target,
             $repoPath,
             "We were unable to create path '{$repoTargetDirName}' to hold contents of '{$repoTargetPath}'."
+        );
+    }
+
+    public static function couldNotDestroyExistingPath(RestorableTarget $target, RepoPath $repoPath)
+    {
+        $repoTargetPath = $repoPath->repoTargetPath($target);
+
+        return new static(
+            $target,
+            $repoPath,
+            "We were unable to destroy the target path '{$target->path()}' in order to create a link back to the repo."
         );
     }
 }

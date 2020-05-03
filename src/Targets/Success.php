@@ -28,7 +28,7 @@ final class Success implements Result
         return $this->message;
     }
 
-    public static function achieved(TargetPath $target, RepoPath $repoPath): self
+    public static function backupComplete(TargetPath $target, RepoPath $repoPath): self
     {
         $repoTargetPath = $repoPath->repoTargetPath($target);
 
@@ -36,6 +36,17 @@ final class Success implements Result
             $target,
             $repoPath,
             "Successfully moved '{$target->path()}' to '{$repoTargetPath}' and created a symlink to reference its new location."
+        );
+    }
+
+    public static function restoreComplete(TargetPath $target, RepoPath $repoPath): self
+    {
+        $repoTargetPath = $repoPath->repoTargetPath($target);
+
+        return new static(
+            $target,
+            $repoPath,
+            "Successfully established a symlink from '{$target->path()}' to '{$repoTargetPath}'."
         );
     }
 }

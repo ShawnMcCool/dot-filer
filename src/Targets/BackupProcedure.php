@@ -1,6 +1,6 @@
 <?php namespace DotFiler\Targets;
 
-final class TargetProcessor
+final class BackupProcedure
 {
     private RepoPath $repoPath;
 
@@ -9,16 +9,16 @@ final class TargetProcessor
         $this->repoPath = $repoPath;
     }
 
-    public function process(ProcessableTargets $targets): Results
+    public function run(BackupableTargets $targets): Results
     {
         $results = $targets->all()->map(
-            fn(ProcessableTarget $target): Result => $this->processTarget($target)
+            fn(BackupableTarget $target): Result => $this->backupTarget($target)
         );
 
         return new Results($results);
     }
 
-    private function processTarget(ProcessableTarget $target): Result
+    private function backupTarget(BackupableTarget $target): Result
     {
         $repoTargetPath = $this->repoPath->repoTargetPath($target);
 
@@ -49,6 +49,6 @@ final class TargetProcessor
             );
         }
 
-        return Success::achieved($target, $this->repoPath);
+        return Success::backupComplete($target, $this->repoPath);
     }
 }
