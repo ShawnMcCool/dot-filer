@@ -3,4 +3,3 @@
 ubuntu-bionic-18.04-cloudimg-console.log
 tests/test-environment/
 /tmp
-/vendor/**/.git
