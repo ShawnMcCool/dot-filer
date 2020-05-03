@@ -51,7 +51,7 @@ final class Backup extends Command
         $styledResults =
             $results->all()
                     ->map(
-                        fn(Result $result) => $result instanceof Error ? Ansi::red($result) : Ansi::green($result)
+                        fn(Result $result) => $result instanceof Error ? Ansi::red($result->message()) : Ansi::green($result->message())
                     )->toArray();
 
         echo TextTable::make()
