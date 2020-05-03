@@ -57,12 +57,31 @@ final class Overview extends Command
                 function ($cols) {
                     [$path, $backup, $restore] = $cols;
 
-                    // managed is blue
                     if ($backup == 'managed' && $restore == 'managed') {
                         $path = Ansi::blue($path);
                     }
+
+                    #Backup
                     if ($backup == 'managed') {
                         $backup = Ansi::blue($backup);
+                    }
+                    if ($backup == 'ready for management') {
+                        $backup = Ansi::green($backup);
+                    }
+                    if ($backup == 'not ready for management') {
+                        $backup = Ansi::red($backup);
+                    }
+                    if ($backup == 'target path not found') {
+                        $backup = Ansi::red($backup);
+                    }
+                    
+                    # Restore
+                    if ($restore == 'unmanaged') {
+                        $restore = Ansi::red($restore);
+                        $path = Ansi::red($path);
+                    }
+                    if ($restore == 'can be restored') {
+                        return Ansi::green($restore);
                     }
                     if ($restore == 'managed') {
                         $restore = Ansi::blue($restore);
