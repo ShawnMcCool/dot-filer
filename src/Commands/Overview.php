@@ -40,6 +40,11 @@ final class Overview extends Command
 
         $dotFiler = new DotFiler($targetFile, $repoPath);
 
+        if ($dotFiler->configuredTargets()->all()->count() == 0) {
+            echo Ansi::red("Target file '{$targetFile->toString()}' contains no backup targets.\n");
+            exit;
+        }
+        
         $statusRows = $this->stylize($dotFiler->allTargetStatuses());
         
         echo "\n" . TextTable::make()

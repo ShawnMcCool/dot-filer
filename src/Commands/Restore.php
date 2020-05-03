@@ -41,6 +41,11 @@ final class Restore extends Command
 
         $dotFiler = new DotFiler($targetFile, $repoPath);
 
+        if ($dotFiler->restorableTargets()->all()->count() == 0) {
+            echo Ansi::red("Could not find targets in need of restoration in '{$targetFile->toString()}'.\n");
+            exit;
+        }
+        
         $results = $dotFiler->processRestore()->all();
         
         if ($results->count() == 0) {

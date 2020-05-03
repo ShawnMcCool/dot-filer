@@ -53,7 +53,7 @@ final class DotFiler
         return UnprocessedTargets::fromExisting($this->existingTargets());
     }
 
-    public function processableTargets(): BackupableTargets
+    public function backupableTargets(): BackupableTargets
     {
         return BackupableTargets::fromUnprocessed($this->unprocessedTargets(), $this->repoPath);
     }
@@ -73,7 +73,7 @@ final class DotFiler
         return
             (new BackupProcedure($this->repoPath))
                 ->run(
-                    $this->processableTargets()
+                    $this->backupableTargets()
                 );
     }
 
@@ -125,7 +125,7 @@ final class DotFiler
             $this->managedTargets()->all()->first(
                 fn(ManagedTarget $managed) => $managed->path() == $path
             ) ??
-            $this->processableTargets()->all()->first(
+            $this->backupableTargets()->all()->first(
                 fn(BackupableTarget $processable) => $processable->path() == $path
             ) ??
             $this->unprocessedTargets()->all()->first(

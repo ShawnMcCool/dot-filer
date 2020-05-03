@@ -25,12 +25,12 @@ final class TargetFile
 
     public static function fromString(string $path)
     {
-        $path = realpath($path);
+        $resolvedPath = realpath($path);
 
-        if ( ! $path || ! is_file($path)) {
+        if ( ! $resolvedPath || ! is_file($resolvedPath)) {
             throw PathNotFound::targetsFile($path);
         }
 
-        return new static($path);
+        return new static($resolvedPath);
     }
 }

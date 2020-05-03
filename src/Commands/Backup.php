@@ -34,20 +34,26 @@ final class Backup extends Command
         $targetFile = TargetFile::fromString(
             $cli->getOperand('target-file')
         );
-        
+
         $repoPath = RepoPath::fromString(
             $cli->getOperand('repo-path')
         );
-        
+
         $dotFiler = new DotFiler($targetFile, $repoPath);
+
+        if ($dotFiler->backupableTargets()->all()->count() == 0) {
+            echo Ansi::red("There are currently no targets staged for backup in '{$targetFile->toString()}'.\n");
+            exit;
+        }
         
         $results = $dotFiler->processBackup();
-
-        $styledResults = $results->all()
-                                 ->map(
-                                     fn(Result $result) => $result instanceof Error ? Ansi::red($result) : Ansi::green($result)
-                                 )->toArray();
         
+        $styledResults =
+            $results->all()
+                    ->map(
+                        fn(Result $result) => $result instanceof Error ? Ansi::red($result) : Ansi::green($result)
+                    )->toArray();
+
         echo TextTable::make()
                       ->withTitle('Backup Results')
                       ->withHeaders('Path', 'Message')
