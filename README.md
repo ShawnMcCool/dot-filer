@@ -2,12 +2,6 @@
 
 Dot Filer is a PHP dot file management tool built to provide a no-nonsense approach to a common scenario.
 
-## Development Todo
-
-- validate all links in the target file
-- find all links that require action
-- move files to target directory
-
 ## Why dot files?
 
 When a file or folder name is preceded with a dot "." it's considered a hidden file by most operating systems. This is merely a convenience that allows configuration and other files to not clutter up simple directory listings.
@@ -22,40 +16,41 @@ By backing these files up and versioning them we can prevent the loss of a lot o
 
 # How do we manage the backups?
 
-This management model has 2 pieces. The first is centralization and the second is off-site storage.
+This management model has 2 pieces. The first is the "centralized repository" and the second is off-site storage.
 
-## Centralization
+Dot-Filer is a tool for managing the centralized repository. This leaves it up to you to manage off-site storage. Committing to a git repository and pushing the changes offsite is an optimal strategy.
 
-In order to make storage simple, dot filer moves all interesting directories and files to a central location (your dot file repo) and then symlinks them back to their original place. Moving files, making sure the destination location is set up, and managing symlinks are all part of the dot filer model.
+## Centralized Repository
 
-The way that this works is through 'target' files that live within your own dot file repository. These target files contain a list of files or folders (one per line) that are interesting targets for a specific operation.
+In order to make storage simple, dot filer moves all interesting directories and files to the centralized repository (a directory) and then creates a symlink such that the files and directorys are accessible at their original location. Moving files, making sure the destination location is set up, and managing symlinks are all part of the Dot-Filer model.
 
-A target can be used for a backup or restore operation.
+A "target file" is a file that contains a list of files and directories that you want to back up each delimited by a new-line. 
+
+These target files are necessary for all Dot-Filer operations because they provide necessary context. This means that it's possible to have many configurations per machine to manage many repositories.
+
+### Overview
+
+The overview will show you the status of each path in the target file as it relates to backup and restore operations.
+
+```shell script
+$ dotfiler overview <target-file> <repo-path>
+```
 
 ### Backup
 
-The backup process runs from the top of your selected targets list down and for each directory found it will move that directory into your dot file repo and create a symbolic link back to its original location.
-
-When a target is found to be a file, it'll mirror that file's folder structure in your dot file repo and move the original file there before symlinking the file itself to the original location.
-
-In this way your important configuration files can be found and accessed as normal while all existing within a centralized location (your dot files repo).
+The backup procedure processes each target from the target file. If it finds one that is not already managed then it will move the target to the repository and create a symlink at its original position.
 
 ```shell script
-$ dot-backup <target-file> <backup-repo>
-```
-
-Options:
-```
---dry-run   display a report of what a backup run would do
+$ dotfiler backup <target-file> <repo-path>
 ```
 
 ### Restoration
 
-A target file can be used to remove configuration files on your machine and create symlinks to the files in your dot file repo.
+During restoration any target file that does not exist or does not exist as a symlink to the target's repo path will be destroyed and a new symlink that points to the target's repo path will take its place.
 
-## Off-site Storage
-
-Dot Filer has no opinion about your off-site storage technique. We're fond of making the dot file repo a git repository. But to each their own.
+```shell script
+$ dotfiler restore <target-file> <repo-path>
+```
 
 # About Target Files
 
