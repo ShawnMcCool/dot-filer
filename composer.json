@@ -11,10 +11,10 @@
   "require": {
     "php": "^7.4",
     "ext-json": "*",
-    "ulrichsg/getopt-php": "dev-master"
+    "ulrichsg/getopt-php": "dev-master",
+    "phpunit/phpunit": "^9"
   },
   "require-dev": {
-    "phpunit/phpunit": "^9"
   },
   "autoload": {
     "psr-4": {

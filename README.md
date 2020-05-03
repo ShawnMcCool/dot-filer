@@ -67,7 +67,7 @@ Download this repository either by cloning it or [downloading the files](https:/
 
 #### Convenience
 
-You can run dotfiler from the directory that you installed it to by running `bin/dotfiler` from command line.
+You can run dot-filer from the directory that you installed it to by running `bin/dotfiler` from command line.
 
 For convenience you might choose to do one of the following:
 
