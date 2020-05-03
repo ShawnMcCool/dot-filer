@@ -79,6 +79,9 @@ final class Overview extends Command
                     if ($backup == 'target path not found') {
                         $backup = Ansi::red($backup);
                     }
+                    if ($backup == 'target path is found but is in an unidentifiable state') {
+                        $backup = Ansi::red($backup);
+                    }
                     
                     # Restore
                     if ($restore == 'unmanaged') {
@@ -86,7 +89,7 @@ final class Overview extends Command
                         $path = Ansi::red($path);
                     }
                     if ($restore == 'can be restored') {
-                        return Ansi::green($restore);
+                        $restore = Ansi::green($restore);
                     }
                     if ($restore == 'managed') {
                         $restore = Ansi::blue($restore);

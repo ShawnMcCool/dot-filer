@@ -6,8 +6,8 @@ use GetOpt\Operand;
 use DotFiler\DotFiler;
 use DotFiler\RepoPath;
 use DotFiler\TargetFile;
-use mysql_xdevapi\Result;
 use DotFiler\Procedures\Error;
+use DotFiler\Procedures\Result;
 use DotFiler\TextFormatting\Ansi;
 use DotFiler\TextFormatting\TextTable;
 

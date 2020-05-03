@@ -4,6 +4,7 @@ use DotFiler\Procedures\Results;
 use DotFiler\Targets\ManagedTarget;
 use DotFiler\Targets\ManagedTargets;
 use DotFiler\Collections\Collection;
+use DotFiler\Targets\ExistingTarget;
 use DotFiler\Targets\ExistingTargets;
 use DotFiler\Targets\ConfiguredTarget;
 use DotFiler\Targets\RestorableTarget;
@@ -131,6 +132,9 @@ final class DotFiler
             $this->unprocessedTargets()->all()->first(
                 fn(UnprocessedTarget $unprocessed) => $unprocessed->path() == $path
             ) ??
+            $this->existingTargets()->all()->first(
+                fn(ExistingTarget $existing) => $existing->path() == $path
+            ) ??
             $this->nonExistingTargets()->all()->first(
                 fn(NonExistingTarget $nonExisting) => $nonExisting->path() == $path
             );
@@ -142,6 +146,8 @@ final class DotFiler
                 return 'ready for management';
             case UnprocessedTarget::class:
                 return 'not ready for management';
+            case ExistingTarget::class:
+                return 'target path is found but is in an unidentifiable state';
             case NonExistingTarget::class:
                 return 'target path not found';
         }
