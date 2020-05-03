@@ -1,4 +1,8 @@
-<?php namespace DotFiler\Targets;
+<?php namespace DotFiler\Procedures;
+
+use DotFiler\RepoPath;
+use DotFiler\Targets\RestorableTarget;
+use DotFiler\Targets\RestorableTargets;
 
 final class RestoreProcedure
 {

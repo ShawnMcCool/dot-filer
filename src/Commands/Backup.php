@@ -4,8 +4,9 @@ use GetOpt\GetOpt;
 use GetOpt\Command;
 use GetOpt\Operand;
 use DotFiler\DotFiler;
-use DotFiler\Targets\RepoPath;
-use DotFiler\Targets\TargetFile;
+use DotFiler\RepoPath;
+use DotFiler\TargetFile;
+use DotFiler\TextFormatting\TextTable;
 
 final class Backup extends Command
 {
@@ -37,6 +38,13 @@ final class Backup extends Command
         
         $dotFiler = new DotFiler($targetFile, $repoPath);
         
-        $dotFiler->processBackup();
+        $results = $dotFiler->processBackup();
+
+        echo TextTable::make()
+                      ->withTitle('Backup Results')
+                      ->withHeaders('Path', 'Message')
+                      ->withRows(
+                          $results->toArray()
+                      )->toString();
     }
 }

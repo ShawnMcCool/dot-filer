@@ -1,4 +1,7 @@
-<?php namespace DotFiler\Targets;
+<?php namespace DotFiler;
+
+use DotFiler\Targets\TargetPath;
+use DotFiler\Procedures\InvalidPermissions;
 
 final class RepoPath
 {

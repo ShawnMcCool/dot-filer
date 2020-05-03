@@ -1,4 +1,7 @@
-<?php namespace DotFiler\Targets;
+<?php namespace DotFiler\Procedures;
+
+use DotFiler\RepoPath;
+use DotFiler\Targets\TargetPath;
 
 final class Success implements Result
 {

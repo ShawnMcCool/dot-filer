@@ -1,5 +1,6 @@
 <?php namespace DotFiler\Targets;
 
+use DotFiler\RepoPath;
 use DotFiler\Collections\Collection;
 
 /**

@@ -1,4 +1,4 @@
-<?php namespace DotFiler\Targets;
+<?php namespace DotFiler\Procedures;
 
 use DotFiler\Collections\Collection;
 
@@ -47,5 +47,15 @@ final class Results
                 ->map(
                     fn(Result $result) => $result->message()
                 )->implode("\n");
+    }
+
+    public function toArray()
+    {
+        return
+            $this->results
+                ->all()
+                ->map(
+                    fn(Result $result) => [$result->target(), $result->message()]
+                )->toArray();
     }
 }

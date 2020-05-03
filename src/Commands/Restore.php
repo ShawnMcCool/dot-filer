@@ -4,9 +4,8 @@ use GetOpt\GetOpt;
 use GetOpt\Command;
 use GetOpt\Operand;
 use DotFiler\DotFiler;
-use DotFiler\Targets\Result;
-use DotFiler\Targets\RepoPath;
-use DotFiler\Targets\TargetFile;
+use DotFiler\RepoPath;
+use DotFiler\TargetFile;
 use DotFiler\TextFormatting\TextTable;
 
 final class Restore extends Command
@@ -41,15 +40,11 @@ final class Restore extends Command
 
         $results = $dotFiler->processRestore();
 
-        $resultArray = $results->all()->map(
-            fn(Result $result) => [$result->target(), $result->message()]
-        )->toArray();
-
-        echo "\n" . TextTable::make()
-                             ->withTitle('Restore Results')
-                             ->withHeaders('Path', 'Message')
-                             ->withRows(
-                                 $resultArray
-                             )->toString();
+        echo TextTable::make()
+                      ->withTitle('Restore Results')
+                      ->withHeaders('Path', 'Message')
+                      ->withRows(
+                          $results->toArray()
+                      )->toString();
     }
 }

@@ -1,5 +1,6 @@
 <?php namespace DotFiler\Targets;
 
+use DotFiler\TargetFile;
 use DotFiler\Collections\Collection;
 
 /**

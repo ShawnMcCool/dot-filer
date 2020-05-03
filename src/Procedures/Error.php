@@ -1,4 +1,9 @@
-<?php namespace DotFiler\Targets;
+<?php namespace DotFiler\Procedures;
+
+use DotFiler\RepoPath;
+use DotFiler\Targets\TargetPath;
+use DotFiler\Targets\RestorableTarget;
+use DotFiler\Targets\UnprocessedTarget;
 
 final class Error implements Result
 {

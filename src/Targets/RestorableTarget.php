@@ -1,5 +1,7 @@
 <?php namespace DotFiler\Targets;
 
+use DotFiler\RepoPath;
+
 /**
  * A restorable target is one which exists at the target 
  * repo path but which doesn't have a symlink at the target

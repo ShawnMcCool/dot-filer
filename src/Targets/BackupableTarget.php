@@ -1,5 +1,7 @@
 <?php namespace DotFiler\Targets;
 
+use DotFiler\RepoPath;
+
 /**
  * A processable target is a file or directory that
  * is specified as a backup target that has not yet

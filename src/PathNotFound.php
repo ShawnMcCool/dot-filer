@@ -1,6 +1,4 @@
-<?php namespace DotFiler\Targets;
-
-use DotFiler\DotFilerException;
+<?php namespace DotFiler;
 
 final class PathNotFound extends DotFilerException
 {

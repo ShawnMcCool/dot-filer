@@ -4,8 +4,8 @@ use GetOpt\GetOpt;
 use GetOpt\Command;
 use GetOpt\Operand;
 use DotFiler\DotFiler;
-use DotFiler\Targets\RepoPath;
-use DotFiler\Targets\TargetFile;
+use DotFiler\RepoPath;
+use DotFiler\TargetFile;
 use DotFiler\TextFormatting\TextTable;
 
 final class Overview extends Command

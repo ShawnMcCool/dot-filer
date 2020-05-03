@@ -1,24 +1,21 @@
 <?php namespace DotFiler;
 
-use DotFiler\Targets\Results;
-use DotFiler\Targets\RepoPath;
-use DotFiler\Targets\TargetFile;
-use DotFiler\Targets\PathNotFound;
+use DotFiler\Procedures\Results;
 use DotFiler\Targets\ManagedTarget;
 use DotFiler\Targets\ManagedTargets;
 use DotFiler\Targets\ExistingTargets;
-use DotFiler\Targets\BackupProcedure;
 use DotFiler\Targets\ConfiguredTarget;
-use DotFiler\Targets\RestoreProcedure;
 use DotFiler\Targets\RestorableTarget;
+use DotFiler\Targets\BackupableTarget;
 use DotFiler\Targets\ConfiguredTargets;
 use DotFiler\Targets\UnprocessedTarget;
 use DotFiler\Targets\NonExistingTarget;
-use DotFiler\Targets\BackupableTarget;
 use DotFiler\Targets\RestorableTargets;
+use DotFiler\Targets\BackupableTargets;
+use DotFiler\Procedures\BackupProcedure;
 use DotFiler\Targets\NonExistingTargets;
 use DotFiler\Targets\UnprocessedTargets;
-use DotFiler\Targets\BackupableTargets;
+use DotFiler\Procedures\RestoreProcedure;
 
 /**
  * Facade class that serves up a simple api and seeks to

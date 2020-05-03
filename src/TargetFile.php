@@ -1,4 +1,4 @@
-<?php namespace DotFiler\Targets;
+<?php namespace DotFiler;
 
 use DotFiler\Collections\Collection;
 

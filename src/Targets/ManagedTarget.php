@@ -1,5 +1,7 @@
 <?php namespace DotFiler\Targets;
 
+use DotFiler\RepoPath;
+
 /**
  * A managed target is one whose target path has been
  * replaced by a symbolic link and whose home resides
