@@ -10,6 +10,7 @@ Dot Filer is a PHP dot file management tool built to provide a no-nonsense appro
     - [The Centralized Repository](#the-centralized-repository)
     - [Target Files](#target-files)
 - [Usage](#usage)
+    - [Requirements](#requirements)
     - [Installation](#installation)
     - [Procedures](#procedures)
         - [Overview](#overview-1)
@@ -54,14 +55,25 @@ Your repo can contain many target files. They're used as a command line argument
 
 ## Usage
 
+### Requirements
+
+- PHP 7.4+
+
 ### Installation
 
-- Install PHP
-- Download this repository either by cloning it or [downloading the files](https://github.com/ShawnMcCool/dot-filer/archive/master.zip).
-- For convenience...
-    - add the repository's bin/ directory to your PATH.
-    - symlink bin/dotfiler to /usr/local/bin
-    - create a shell script which contains `/the/path/to/dotfiler $1 <your-target-file> <your-repo-file>` so that you only have to run `yourscript.sh backup` `yourscript.sh overview`. It's Linux, do what you want to do. 
+#### Install 
+
+Download this repository either by cloning it or [downloading the files](https://github.com/ShawnMcCool/dot-filer/archive/master.zip).
+
+#### Convenience
+
+You can run dotfiler from the directory that you installed it to by running `bin/dotfiler` from command line.
+
+For convenience you might choose to do one of the following:
+
+- add the repository's bin/ directory to your PATH.
+- symlink bin/dotfiler to /usr/local/bin
+- create a shell script which contains `/the/path/to/dotfiler $1 <your-target-file> <your-repo-file>` so that you only have to run `yourscript.sh backup` `yourscript.sh overview`. It's Linux, do what you want to do. 
  
 
 ### Procedures
