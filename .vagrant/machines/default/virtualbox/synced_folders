@@ -1,1 +1,0 @@
-{"virtualbox":{"/vagrant":{"guestpath":"/vagrant","hostpath":"/home/shawn/src/dot-filer","disabled":false,"__vagrantfile":true},"/home/vagrant/ssh-host":{"guestpath":"/home/vagrant/ssh-host","hostpath":"/home/shawn/.ssh","disabled":false,"__vagrantfile":true}}}
