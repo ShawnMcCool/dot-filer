@@ -6,6 +6,8 @@ use GetOpt\Operand;
 use DotFiler\DotFiler;
 use DotFiler\RepoPath;
 use DotFiler\TargetFile;
+use DotFiler\TextFormatting\Ansi;
+use DotFiler\Collections\Collection;
 use DotFiler\TextFormatting\TextTable;
 
 final class Overview extends Command
@@ -37,12 +39,36 @@ final class Overview extends Command
         );
 
         $dotFiler = new DotFiler($targetFile, $repoPath);
+
+        $statusRows = $this->stylize($dotFiler->allTargetStatuses());
         
         echo "\n" . TextTable::make()
                              ->withTitle('Targets')
                              ->withHeaders('Path', 'Backup Status', 'Restore Status')
                              ->withRows(
-                                 $dotFiler->allTargetStatuses()
+                                 $statusRows->toArray()
                              )->toString();
+    }
+
+    private function stylize(Collection $allTargetStatuses): Collection
+    {
+        return
+            $allTargetStatuses->map(
+                function ($cols) {
+                    [$path, $backup, $restore] = $cols;
+
+                    // managed is blue
+                    if ($backup == 'managed' && $restore == 'managed') {
+                        $path = Ansi::blue($path);
+                    }
+                    if ($backup == 'managed') {
+                        $backup = Ansi::blue($backup);
+                    }
+                    if ($restore == 'managed') {
+                        $restore = Ansi::blue($restore);
+                    }
+
+                    return [$path, $backup, $restore];
+                });
     }
 }

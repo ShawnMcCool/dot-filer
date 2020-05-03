@@ -6,6 +6,9 @@ use GetOpt\Operand;
 use DotFiler\DotFiler;
 use DotFiler\RepoPath;
 use DotFiler\TargetFile;
+use mysql_xdevapi\Result;
+use DotFiler\Procedures\Error;
+use DotFiler\TextFormatting\Ansi;
 use DotFiler\TextFormatting\TextTable;
 
 final class Restore extends Command
@@ -38,13 +41,23 @@ final class Restore extends Command
 
         $dotFiler = new DotFiler($targetFile, $repoPath);
 
-        $results = $dotFiler->processRestore();
-
+        $results = $dotFiler->processRestore()->all();
+        
+        if ($results->count() == 0) {
+            echo Ansi::yellow("No targets were processed.");
+            exit;
+        }
+        
+        $styledResults = $results->all()
+                            ->map(
+                                fn(Result $result) => $result instanceof Error ? Ansi::red($result) : Ansi::green($result)
+                            )->toArray();
+        
         echo TextTable::make()
                       ->withTitle('Restore Results')
                       ->withHeaders('Path', 'Message')
                       ->withRows(
-                          $results->toArray()
+                          $styledResults
                       )->toString();
     }
 }

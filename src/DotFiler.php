@@ -3,6 +3,7 @@
 use DotFiler\Procedures\Results;
 use DotFiler\Targets\ManagedTarget;
 use DotFiler\Targets\ManagedTargets;
+use DotFiler\Collections\Collection;
 use DotFiler\Targets\ExistingTargets;
 use DotFiler\Targets\ConfiguredTarget;
 use DotFiler\Targets\RestorableTarget;
@@ -98,6 +99,8 @@ final class DotFiler
                 fn(ManagedTarget $managed) => $managed->path() == $path
             ) ?? $this->restorableTargets()->all()->first(
                 fn(RestorableTarget $restorable) => $restorable->path() == $path
+            ) ?? $this->configuredTargets()->all()->first(
+                fn(ConfiguredTarget $configured) => $configured->path() == $path
             );
 
         switch (get_class($mostAdvanced)) {
@@ -105,6 +108,8 @@ final class DotFiler
                 return 'managed';
             case RestorableTarget::class:
                 return 'can be restored';
+            case ConfiguredTarget::class:
+                return 'unmanaged';
         }
     }
 
@@ -142,13 +147,13 @@ final class DotFiler
         }
     }
 
-    public function allTargetStatuses(): array
+    public function allTargetStatuses(): Collection
     {
         return
             $this->configuredTargets()
                  ->all()
                  ->map(
                      fn(ConfiguredTarget $configured) => [$configured->path(), $this->backupStatus($configured), $this->restoreStatus($configured)]
-                 )->toArray();
+                 );
     }
 }

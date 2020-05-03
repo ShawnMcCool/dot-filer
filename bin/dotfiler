@@ -9,6 +9,7 @@ use GetOpt\Option;
 use DotFiler\Commands\Backup;
 use GetOpt\ArgumentException;
 use DotFiler\Commands\Restore;use DotFiler\Commands\Overview;
+use DotFiler\TextFormatting\Ansi;
 use GetOpt\ArgumentException\Missing;
 
 # command line arguments
@@ -49,8 +50,9 @@ try {
 }
 
 $command = $cli->getCommand();
+
 if ( ! $command || $cli->getOption('help')) {
-    echo $cli->getHelpText();
+    echo Ansi::yellow($cli->getHelpText());
     exit;
 }
 

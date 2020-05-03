@@ -32,19 +32,19 @@ final class TextTable
         $this->rows = Collection::empty();
     }
 
-    public function withTitle(string $title): TextTable
+    public function withTitle(string $title): self
     {
         $this->title = $title;
         return $this;
     }
 
-    public function withHeaders(...$headers): TextTable
+    public function withHeaders(...$headers): self
     {
         $this->headers = Collection::of($headers);
         return $this;
     }
 
-    public function withRows(array $rows): TextTable
+    public function withRows(array $rows): self
     {
         $this->rows = Collection::of($rows);
         return $this;
@@ -100,13 +100,20 @@ final class TextTable
 
         $merged = $headers->merge($rows);
 
+        // foreach row
         foreach ($merged as $rowCount => $row) {
+            // foreach column
             foreach ($row as $columnCount => $column) {
+                // initialize the column width for this column
                 if ( ! isset($columnWidths[$columnCount])) {
                     $columnWidths[$columnCount] = 0;
                 }
-                if (strlen($column) > $columnWidths[$columnCount]) {
-                    $columnWidths[$columnCount] = strlen($column);
+                
+                // 
+                $strippedColumn = $this->stripAnsi($column);
+                
+                if (strlen($strippedColumn) > $columnWidths[$columnCount]) {
+                    $columnWidths[$columnCount] = strlen($strippedColumn);
                 }
             }
         }
@@ -146,7 +153,8 @@ final class TextTable
     {
         $text = preg_replace('/\x1b(\[|\(|\))[;?0-9]*[0-9A-Za-z]/', "", $text);
         $text = preg_replace('/\x1b(\[|\(|\))[;?0-9]*[0-9A-Za-z]/', "", $text);
-        return preg_replace('/[\x03|\x1a]/', "", $text);
+        $text = preg_replace('/[\x03|\x1a]/', "", $text);
+        return $text;
     }
 
     private function cellPadding()
@@ -157,7 +165,7 @@ final class TextTable
     private function centerText(array $columnWidths, string $text): string
     {
         $strippedText = $this->stripAnsi($text);
-        
+
         $width = $this->getFullWidth($columnWidths);
         $halfWidth = intdiv($width, 2);
         $halfTextWidth = intdiv(strlen($strippedText), 2);
