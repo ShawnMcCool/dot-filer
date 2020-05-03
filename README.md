@@ -2,6 +2,8 @@
 
 Dot Filer is a PHP dot file management tool built to provide a no-nonsense approach to a common scenario.
 
+> **NOTE:** Don't use this until testing is finished.
+
 - [Overview](#overview)
     - [Why Dot Files?](#why-dot-files)
     - [The Backup Model](#the-backup-model)
@@ -92,9 +94,11 @@ $ dotfiler restore <target-file> <repo-path>
 
 ### Upcoming
 
+Tests are being added next. Don't use the software until it's done (won't take long).
+
 There's some areas that aren't up to standards. The TextTable stuff is really rough but it works and doesn't need to change so we'll leave that alone.
 
-All of the result processing / color stuff relies on string matching. It's fine for the moment but it'll probably be what changes next. 
+All of the result processing / color stuff relies on string matching. It's fine for the moment but it'll probably be what changes after tests are added. 
 
 ### Maintainers
 
