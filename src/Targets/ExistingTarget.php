@@ -2,7 +2,7 @@
 
 /**
  * An existing target contains a path for a directory or file
- * that we have verified exists on the filesystem. 
+ * that we have verified exists on the filesystem.
  */
 final class ExistingTarget implements TargetPath
 {
@@ -25,7 +25,7 @@ final class ExistingTarget implements TargetPath
 
     /**
      * Locate the unvalidated target and return an ExistingTarget
-     * if location is successful. 
+     * if location is successful.
      */
     public static function locate(ConfiguredTarget $target): ?self
     {
@@ -34,15 +34,20 @@ final class ExistingTarget implements TargetPath
         $resolvedPath = realpath($target->path());
 
         // if it's a link then we just want the path of the link
-        if(is_link($target->path())) {
-            return new static($target->path());
+        if (is_link($target->path())) {
+            $basename = basename($target->path());
+            $dirname = dirname($target->path());
+            
+            $path = realpath($dirname) .'/'. $basename;
+            
+            return new static($path);
         }
-        
+
         // if it's not a link then resolve all path symbols 
         if (file_exists($resolvedPath)) {
             return new static($resolvedPath);
         }
-        
+
         return null;
     }
 }

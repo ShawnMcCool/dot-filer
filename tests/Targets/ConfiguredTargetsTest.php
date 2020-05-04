@@ -18,6 +18,7 @@ class ConfiguredTargetsTest extends DotFilerTestCase
                 'tests/test-environment/example-file.txt',
                 'tests/test-environment/does-not-exist.txt',
                 'tests/test-environment/managed-file.txt',
+                'tests/test-environment/symlink',
             ],
             $this->targetPaths($targets)
         );

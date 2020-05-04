@@ -26,7 +26,7 @@ final class UnprocessedTarget implements TargetPath
 
     /**
      * Return an UnprocessedTarget if the valid target is determined
-     * to not be a symlink 
+     * to not be a symlink. Symlinks are not valid targets. 
      */
     public static function check(ExistingTarget $target): ?self
     {

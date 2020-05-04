@@ -19,6 +19,7 @@ class ExistingTargetsTest extends DotFilerTestCase
                 $this->basePath . 'tests/test-environment/config-directory',
                 $this->basePath . 'tests/test-environment/example-file.txt',
                 $this->basePath . 'tests/test-environment/managed-file.txt',
+                $this->basePath . 'tests/test-environment/symlink',
             ],
             $this->targetPaths($existing)
         );

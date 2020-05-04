@@ -35,7 +35,7 @@ final class GenerateTestEnvironment
         rmdir($path);
     }
 
-    private function clearPath()
+    public function clearPath()
     {
         if (is_dir($this->targetPath)) {
             $this->recursiveDelete($this->targetPath);
@@ -73,6 +73,12 @@ final class GenerateTestEnvironment
         ) {
             $this->recursiveCopy(realpath($this->templatePath), $this->targetPath);
         }
+        
+        # provide a symlink as a target to test UnprocessedTarget
+        symlink(
+            $this->basePath . 'tests/test-environment/example-file.txt',
+            $this->basePath . 'tests/test-environment/symlink'
+        );
     }
 
     private function validateTargetPath()
@@ -92,6 +98,6 @@ final class GenerateTestEnvironment
         $generator = new static();
         $generator->validateTargetPath();
         $generator->clearPath();
-        $generator->buildEnvironment();;
+        $generator->buildEnvironment();
     }
 }

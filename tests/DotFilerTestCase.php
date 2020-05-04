@@ -11,7 +11,7 @@ use Tests\DotFiler\GenerateTestEnvironment\TestEnvironmentPathIsInvalid;
 abstract class DotFilerTestCase extends TestCase
 {
     use TestValues;
-
+    
     protected function setUp(): void
     {
         parent::setUp();
