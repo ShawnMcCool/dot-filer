@@ -38,7 +38,7 @@ final class Success implements Result
         return new static(
             $target,
             $repoPath,
-            "Successfully moved '{$target->path()}' to '{$repoTargetPath}' and created a symlink to reference its new location."
+            "Target successfully managed."
         );
     }
 
@@ -49,7 +49,7 @@ final class Success implements Result
         return new static(
             $target,
             $repoPath,
-            "Successfully established a symlink from '{$target->path()}' to '{$repoTargetPath}'."
+            "Target successfully restored."
         );
     }
 }

@@ -47,7 +47,7 @@ final class Overview extends Command
         
         $statusRows = $this->stylize($dotFiler->allTargetStatuses());
         
-        echo "\n" . TextTable::make()
+        echo TextTable::make()
                              ->withTitle('Targets')
                              ->withHeaders('Path', 'Backup Status', 'Restore Status')
                              ->withRows(

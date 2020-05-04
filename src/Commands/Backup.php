@@ -45,20 +45,28 @@ final class Backup extends Command
             echo Ansi::red("There are currently no targets staged for backup in '{$targetFile->toString()}'.\n");
             exit;
         }
-        
+
         $results = $dotFiler->processBackup();
-        
+
         $styledResults =
             $results->all()
                     ->map(
-                        fn(Result $result) => $result instanceof Error ? Ansi::red($result->message()) : Ansi::green($result->message())
+                        fn(Result $result) => [
+                            $result->target()->path(), (string)
+                            $result instanceof Error
+                                ? Ansi::red($result->message())
+                                : Ansi::green($result->message())
+                            ,
+                        ]
                     )->toArray();
-
+        
         echo TextTable::make()
                       ->withTitle('Backup Results')
                       ->withHeaders('Path', 'Message')
                       ->withRows(
                           $styledResults
                       )->toString();
+        
+        
     }
 }

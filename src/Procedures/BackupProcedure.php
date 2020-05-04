@@ -35,7 +35,7 @@ final class BackupProcedure
         }
 
         // 2. move target to repo path
-        if ( ! rename($target->path(), $repoTargetPath)) {
+        if ( ! @rename($target->path(), $repoTargetPath)) {
             return Error::couldNotMoveTarget($target, $this->repoPath);
         }
 
