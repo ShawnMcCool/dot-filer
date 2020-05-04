@@ -2,6 +2,9 @@
 
 Dot Filer is a PHP dot file management tool built to provide a no-nonsense approach to a common scenario.
 
+Todo:
+    - rename from DotFiler to Dotfiler
+
 > **NOTE:** Don't use this until testing is finished.
 
 - [Overview](#overview)

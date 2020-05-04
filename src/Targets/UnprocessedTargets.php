@@ -22,7 +22,7 @@ final class UnprocessedTargets
         return $this->targets;
     }
 
-    public static function fromExisting(ExistingTargets $existingTargets)
+    public static function fromExisting(ExistingTargets $existingTargets): self
     {
         return new static(
             $existingTargets
