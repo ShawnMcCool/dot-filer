@@ -46,9 +46,9 @@ final class Restore extends Command
             exit;
         }
 
-        $results = $dotFiler->processRestore()->all();
+        $results = $dotFiler->processRestore();
 
-        if ($results->count() == 0) {
+        if ($results->all()->count() == 0) {
             echo Ansi::yellow("No targets were processed.");
             exit;
         }
@@ -57,10 +57,10 @@ final class Restore extends Command
             $results->all()
                     ->map(
                         fn(Result $result) => [
-                            $result->target()->path(), (string)
+                            $result->target()->path(),
                             $result instanceof Error
-                                ? Ansi::red($result->message())
-                                : Ansi::green($result->message()),
+                                ? (string) Ansi::red($result->message())
+                                : (string) Ansi::green($result->message()),
                         ]
                     )->toArray();
 

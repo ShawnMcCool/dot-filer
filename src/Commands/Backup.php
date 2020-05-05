@@ -52,10 +52,10 @@ final class Backup extends Command
             $results->all()
                     ->map(
                         fn(Result $result) => [
-                            $result->target()->path(), (string)
+                            $result->target()->path(),
                             $result instanceof Error
-                                ? Ansi::red($result->message())
-                                : Ansi::green($result->message())
+                                ? (string) Ansi::red($result->message())
+                                : (string) Ansi::green($result->message())
                             ,
                         ]
                     )->toArray();
