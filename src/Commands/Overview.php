@@ -6,6 +6,7 @@ use GetOpt\Operand;
 use DotFiler\DotFiler;
 use DotFiler\RepoPath;
 use DotFiler\TargetFile;
+use DotFiler\Recommendations;
 use DotFiler\TextFormatting\Ansi;
 use DotFiler\Collections\Collection;
 use DotFiler\TextFormatting\TextTable;
@@ -44,15 +45,32 @@ final class Overview extends Command
             echo Ansi::red("Target file '{$targetFile->toString()}' contains no backup targets.\n");
             exit;
         }
-        
+
+        # Status Overview
         $statusRows = $this->stylize($dotFiler->allTargetStatuses());
-        
+
         echo TextTable::make()
-                             ->withTitle('Targets')
-                             ->withHeaders('Path', 'Backup Status', 'Restore Status')
-                             ->withRows(
-                                 $statusRows->toArray()
-                             )->toString();
+                      ->withTitle('Targets')
+                      ->withHeaders('Path', 'Backup Status', 'Restore Status')
+                      ->withRows(
+                          $statusRows->toArray()
+                      )->toString();
+
+        # Recommendations
+        $recommendations = Recommendations::fromTargetStatuses($dotFiler->allTargetStatuses())
+                                          ->map(
+                                              fn($target, $recommendation) => [$target => 
+                                                  [$target, Ansi::red($recommendation)]
+                                              ]
+                                          )->toCollection()
+                                          ->toArray();
+
+        echo TextTable::make()
+                      ->withTitle('Recommendations')
+                      ->withHeaders('Path', 'Recommendation')
+                      ->withRows(
+                          $recommendations
+                      )->toString();
     }
 
     private function stylize(Collection $allTargetStatuses): Collection
@@ -82,7 +100,7 @@ final class Overview extends Command
                     if ($backup == 'target path is found but is in an unidentifiable state') {
                         $backup = Ansi::red($backup);
                     }
-                    
+
                     # Restore
                     if ($restore == 'unmanaged') {
                         $restore = Ansi::red($restore);
