@@ -59,18 +59,21 @@ final class Overview extends Command
         # Recommendations
         $recommendations = Recommendations::fromTargetStatuses($dotFiler->allTargetStatuses())
                                           ->map(
-                                              fn($target, $recommendation) => [$target => 
-                                                  [$target, Ansi::red($recommendation)]
+                                              fn($target, $recommendation) => [
+                                                  $target =>
+                                                      [$target, Ansi::red($recommendation)],
                                               ]
                                           )->toCollection()
                                           ->toArray();
 
-        echo TextTable::make()
-                      ->withTitle('Recommendations')
-                      ->withHeaders('Path', 'Recommendation')
-                      ->withRows(
-                          $recommendations
-                      )->toString();
+        if ($recommendations) {
+            echo TextTable::make()
+                          ->withTitle('Recommendations')
+                          ->withHeaders('Path', 'Recommendation')
+                          ->withRows(
+                              $recommendations
+                          )->toString();
+        }
     }
 
     private function stylize(Collection $allTargetStatuses): Collection
