@@ -9,6 +9,27 @@
  */
 namespace PHPUnit\Util\PHP;
 
+use const DIRECTORY_SEPARATOR;
+use const PHP_SAPI;
+use function array_keys;
+use function array_merge;
+use function assert;
+use function escapeshellarg;
+use function file_exists;
+use function file_get_contents;
+use function ini_get_all;
+use function restore_error_handler;
+use function set_error_handler;
+use function sprintf;
+use function str_replace;
+use function strpos;
+use function strrpos;
+use function substr;
+use function trim;
+use function unlink;
+use function unserialize;
+use __PHP_Incomplete_Class;
+use ErrorException;
 use PHPUnit\Framework\AssertionFailedError;
 use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\SyntheticError;
@@ -55,7 +76,7 @@ abstract class AbstractPhpProcess
 
     public static function factory(): self
     {
-        if (\DIRECTORY_SEPARATOR === '\\') {
+        if (DIRECTORY_SEPARATOR === '\\') {
             return new WindowsPhpProcess;
         }
 
@@ -86,7 +107,7 @@ abstract class AbstractPhpProcess
     }
 
     /**
-     * Sets the input string to be sent via STDIN
+     * Sets the input string to be sent via STDIN.
      */
     public function setStdin(string $stdin): void
     {
@@ -94,7 +115,7 @@ abstract class AbstractPhpProcess
     }
 
     /**
-     * Returns the input string to be sent via STDIN
+     * Returns the input string to be sent via STDIN.
      */
     public function getStdin(): string
     {
@@ -102,7 +123,7 @@ abstract class AbstractPhpProcess
     }
 
     /**
-     * Sets the string of arguments to pass to the php job
+     * Sets the string of arguments to pass to the php job.
      */
     public function setArgs(string $args): void
     {
@@ -110,7 +131,7 @@ abstract class AbstractPhpProcess
     }
 
     /**
-     * Returns the string of arguments to pass to the php job
+     * Returns the string of arguments to pass to the php job.
      */
     public function getArgs(): string
     {
@@ -118,7 +139,7 @@ abstract class AbstractPhpProcess
     }
 
     /**
-     * Sets the array of environment variables to start the child process with
+     * Sets the array of environment variables to start the child process with.
      *
      * @param array<string, string> $env
      */
@@ -128,7 +149,7 @@ abstract class AbstractPhpProcess
     }
 
     /**
-     * Returns the array of environment variables to start the child process with
+     * Returns the array of environment variables to start the child process with.
      */
     public function getEnv(): array
     {
@@ -136,7 +157,7 @@ abstract class AbstractPhpProcess
     }
 
     /**
-     * Sets the amount of seconds to wait before timing out
+     * Sets the amount of seconds to wait before timing out.
      */
     public function setTimeout(int $timeout): void
     {
@@ -144,7 +165,7 @@ abstract class AbstractPhpProcess
     }
 
     /**
-     * Returns the amount of seconds to wait before timing out
+     * Returns the amount of seconds to wait before timing out.
      */
     public function getTimeout(): int
     {
@@ -156,17 +177,24 @@ abstract class AbstractPhpProcess
      *
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      */
-    public function runTestJob(string $job, Test $test, TestResult $result): void
+    public function runTestJob(string $job, Test $test, TestResult $result, string $processResultFile): void
     {
         $result->startTest($test);
 
-        $_result = $this->runJob($job);
+        $processResult = '';
+        $_result       = $this->runJob($job);
+
+        if (file_exists($processResultFile)) {
+            $processResult = file_get_contents($processResultFile);
+
+            @unlink($processResultFile);
+        }
 
         $this->processChildResult(
             $test,
             $result,
-            $_result['stdout'],
-            $_result['stderr']
+            $processResult,
+            $_result['stderr'],
         );
     }
 
@@ -178,24 +206,24 @@ abstract class AbstractPhpProcess
         $command = $this->runtime->getBinary();
 
         if ($this->runtime->hasPCOV()) {
-            $settings = \array_merge(
+            $settings = array_merge(
                 $settings,
                 $this->runtime->getCurrentSettings(
-                    \array_keys(\ini_get_all('pcov'))
-                )
+                    array_keys(ini_get_all('pcov')),
+                ),
             );
         } elseif ($this->runtime->hasXdebug()) {
-            $settings = \array_merge(
+            $settings = array_merge(
                 $settings,
                 $this->runtime->getCurrentSettings(
-                    \array_keys(\ini_get_all('xdebug'))
-                )
+                    array_keys(ini_get_all('xdebug')),
+                ),
             );
         }
 
         $command .= $this->settingsToParameters($settings);
 
-        if (\PHP_SAPI === 'phpdbg') {
+        if (PHP_SAPI === 'phpdbg') {
             $command .= ' -qrr';
 
             if (!$file) {
@@ -204,7 +232,7 @@ abstract class AbstractPhpProcess
         }
 
         if ($file) {
-            $command .= ' ' . \escapeshellarg($file);
+            $command .= ' ' . escapeshellarg($file);
         }
 
         if ($this->args) {
@@ -231,7 +259,7 @@ abstract class AbstractPhpProcess
         $buffer = '';
 
         foreach ($settings as $setting) {
-            $buffer .= ' -d ' . \escapeshellarg($setting);
+            $buffer .= ' -d ' . escapeshellarg($setting);
         }
 
         return $buffer;
@@ -249,42 +277,43 @@ abstract class AbstractPhpProcess
         if (!empty($stderr)) {
             $result->addError(
                 $test,
-                new Exception(\trim($stderr)),
-                $time
+                new Exception(trim($stderr)),
+                $time,
             );
         } else {
-            \set_error_handler(
+            set_error_handler(
                 /**
-                 * @throws \ErrorException
+                 * @throws ErrorException
                  */
-                static function ($errno, $errstr, $errfile, $errline): void {
-                    throw new \ErrorException($errstr, $errno, $errno, $errfile, $errline);
-                }
+                static function ($errno, $errstr, $errfile, $errline): void
+                {
+                    throw new ErrorException($errstr, $errno, $errno, $errfile, $errline);
+                },
             );
 
             try {
-                if (\strpos($stdout, "#!/usr/bin/env php\n") === 0) {
-                    $stdout = \substr($stdout, 19);
+                if (strpos($stdout, "#!/usr/bin/env php\n") === 0) {
+                    $stdout = substr($stdout, 19);
                 }
 
-                $childResult = \unserialize(\str_replace("#!/usr/bin/env php\n", '', $stdout));
-                \restore_error_handler();
+                $childResult = unserialize(str_replace("#!/usr/bin/env php\n", '', $stdout));
+                restore_error_handler();
 
                 if ($childResult === false) {
                     $result->addFailure(
                         $test,
                         new AssertionFailedError('Test was run in child process and ended unexpectedly'),
-                        $time
+                        $time,
                     );
                 }
-            } catch (\ErrorException $e) {
-                \restore_error_handler();
+            } catch (ErrorException $e) {
+                restore_error_handler();
                 $childResult = false;
 
                 $result->addError(
                     $test,
-                    new Exception(\trim($stdout), 0, $e),
-                    $time
+                    new Exception(trim($stdout), 0, $e),
+                    $time,
                 );
             }
 
@@ -299,11 +328,11 @@ abstract class AbstractPhpProcess
                 $test->addToAssertionCount($childResult['numAssertions']);
 
                 $childResult = $childResult['result'];
-                \assert($childResult instanceof  TestResult);
+                assert($childResult instanceof TestResult);
 
                 if ($result->getCollectCodeCoverageInformation()) {
                     $result->getCodeCoverage()->merge(
-                        $childResult->getCodeCoverage()
+                        $childResult->getCodeCoverage(),
                     );
                 }
 
@@ -319,37 +348,37 @@ abstract class AbstractPhpProcess
                     $result->addError(
                         $test,
                         $this->getException($notImplemented[0]),
-                        $time
+                        $time,
                     );
                 } elseif (!empty($risky)) {
                     $result->addError(
                         $test,
                         $this->getException($risky[0]),
-                        $time
+                        $time,
                     );
                 } elseif (!empty($skipped)) {
                     $result->addError(
                         $test,
                         $this->getException($skipped[0]),
-                        $time
+                        $time,
                     );
                 } elseif (!empty($errors)) {
                     $result->addError(
                         $test,
                         $this->getException($errors[0]),
-                        $time
+                        $time,
                     );
                 } elseif (!empty($warnings)) {
                     $result->addWarning(
                         $test,
                         $this->getException($warnings[0]),
-                        $time
+                        $time,
                     );
                 } elseif (!empty($failures)) {
                     $result->addFailure(
                         $test,
                         $this->getException($failures[0]),
-                        $time
+                        $time,
                     );
                 }
             }
@@ -371,24 +400,24 @@ abstract class AbstractPhpProcess
     {
         $exception = $error->thrownException();
 
-        if ($exception instanceof \__PHP_Incomplete_Class) {
+        if ($exception instanceof __PHP_Incomplete_Class) {
             $exceptionArray = [];
 
             foreach ((array) $exception as $key => $value) {
-                $key                  = \substr($key, \strrpos($key, "\0") + 1);
+                $key                  = substr($key, strrpos($key, "\0") + 1);
                 $exceptionArray[$key] = $value;
             }
 
             $exception = new SyntheticError(
-                \sprintf(
+                sprintf(
                     '%s: %s',
                     $exceptionArray['_PHP_Incomplete_Class_Name'],
-                    $exceptionArray['message']
+                    $exceptionArray['message'],
                 ),
                 $exceptionArray['code'],
                 $exceptionArray['file'],
                 $exceptionArray['line'],
-                $exceptionArray['trace']
+                $exceptionArray['trace'],
             );
         }
 

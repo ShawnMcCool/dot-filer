@@ -9,7 +9,7 @@
     }
   ],
   "require": {
-    "php": "^7.4",
+    "php": ">7.4",
     "ext-json": "*",
     "ulrichsg/getopt-php": "dev-master",
     "phpunit/phpunit": "^9"

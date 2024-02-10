@@ -9,10 +9,14 @@
  */
 namespace SebastianBergmann\CodeCoverage\Report\Xml;
 
+use DOMElement;
+
+/**
+ * @internal This class is not covered by the backward compatibility promise for phpunit/php-code-coverage
+ */
 final class Tests
 {
     private $contextNode;
-
     private $codeMap = [
         -1 => 'UNKNOWN',    // PHPUnit_Runner_BaseTestRunner::STATUS_UNKNOWN
         0  => 'PASSED',     // PHPUnit_Runner_BaseTestRunner::STATUS_PASSED
@@ -24,7 +28,7 @@ final class Tests
         6  => 'WARNING',     // PHPUnit_Runner_BaseTestRunner::STATUS_WARNING
     ];
 
-    public function __construct(\DOMElement $context)
+    public function __construct(DOMElement $context)
     {
         $this->contextNode = $context;
     }

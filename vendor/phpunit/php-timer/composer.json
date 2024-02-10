@@ -17,13 +17,12 @@
     "support": {
         "issues": "https://github.com/sebastianbergmann/php-timer/issues"
     },
-    "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
-        "php": "^7.3"
+        "php": ">=7.3"
     },
     "require-dev": {
-        "phpunit/phpunit": "^9.2"
+        "phpunit/phpunit": "^9.3"
     },
     "config": {
         "platform": {
@@ -39,7 +38,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "4.0-dev"
+            "dev-master": "5.0-dev"
         }
     }
 }

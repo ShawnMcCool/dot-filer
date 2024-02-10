@@ -9,6 +9,8 @@
  */
 namespace SebastianBergmann\Comparator;
 
+use function is_resource;
+
 /**
  * Compares resources for equality.
  */
@@ -24,7 +26,7 @@ class ResourceComparator extends Comparator
      */
     public function accepts($expected, $actual)
     {
-        return \is_resource($expected) && \is_resource($actual);
+        return is_resource($expected) && is_resource($actual);
     }
 
     /**
@@ -38,7 +40,7 @@ class ResourceComparator extends Comparator
      *
      * @throws ComparisonFailure
      */
-    public function assertEquals($expected, $actual, $delta = 0.0, $canonicalize = false, $ignoreCase = false): void
+    public function assertEquals($expected, $actual, $delta = 0.0, $canonicalize = false, $ignoreCase = false)/*: void*/
     {
         if ($actual != $expected) {
             throw new ComparisonFailure(

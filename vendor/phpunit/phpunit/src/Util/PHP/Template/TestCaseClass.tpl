@@ -1,7 +1,8 @@
 <?php
 use SebastianBergmann\CodeCoverage\CodeCoverage;
-use PHPUnit\TextUI\Configuration\Registry;
-use PHPUnit\TextUI\Configuration\PhpHandler;
+use SebastianBergmann\CodeCoverage\Driver\Selector;
+use PHPUnit\TextUI\XmlConfiguration\Loader;
+use PHPUnit\TextUI\XmlConfiguration\PhpHandler;
 
 if (!defined('STDOUT')) {
     // php://stdout does not obey output buffering. Any output would break
@@ -35,12 +36,18 @@ function __phpunit_run_isolated_test()
     $result = new PHPUnit\Framework\TestResult;
 
     if ({collectCodeCoverageInformation}) {
-        $result->setCodeCoverage(
-            new CodeCoverage(
-                null,
-                unserialize('{codeCoverageFilter}')
-            )
+        $filter = unserialize('{codeCoverageFilter}');
+
+        $codeCoverage = new CodeCoverage(
+            (new Selector)->{driverMethod}($filter),
+            $filter
         );
+
+        if ({cachesStaticAnalysis}) {
+            $codeCoverage->cacheStaticAnalysis(unserialize('{codeCoverageCacheDirectory}'));
+        }
+
+        $result->setCodeCoverage($codeCoverage);
     }
 
     $result->beStrictAboutTestsThatDoNotTestAnything({isStrictAboutTestsThatDoNotTestAnything});
@@ -51,7 +58,7 @@ function __phpunit_run_isolated_test()
 
     $test = new {className}('{name}', unserialize('{data}'), '{dataName}');
     $test->setDependencyInput(unserialize('{dependencyInput}'));
-    $test->setInIsolation(TRUE);
+    $test->setInIsolation(true);
 
     ob_end_clean();
     $test->run($result);
@@ -61,8 +68,9 @@ function __phpunit_run_isolated_test()
     }
 
     ini_set('xdebug.scream', '0');
+
     @rewind(STDOUT); /* @ as not every STDOUT target stream is rewindable */
-    if ($stdout = stream_get_contents(STDOUT)) {
+    if ($stdout = @stream_get_contents(STDOUT)) {
         $output = $stdout . $output;
         $streamMetaData = stream_get_meta_data(STDOUT);
         if (!empty($streamMetaData['stream_type']) && 'STDIO' === $streamMetaData['stream_type']) {
@@ -71,20 +79,23 @@ function __phpunit_run_isolated_test()
         }
     }
 
-    print serialize(
-      [
-        'testResult'    => $test->getResult(),
-        'numAssertions' => $test->getNumAssertions(),
-        'result'        => $result,
-        'output'        => $output
-      ]
+    file_put_contents(
+        '{processResultFile}',
+        serialize(
+            [
+                'testResult'    => $test->getResult(),
+                'numAssertions' => $test->getNumAssertions(),
+                'result'        => $result,
+                'output'        => $output
+            ]
+        )
     );
 }
 
 $configurationFilePath = '{configurationFilePath}';
 
 if ('' !== $configurationFilePath) {
-    $configuration = Registry::getInstance()->get($configurationFilePath);
+    $configuration = (new Loader)->load($configurationFilePath);
 
     (new PhpHandler)->handle($configuration->php());
 

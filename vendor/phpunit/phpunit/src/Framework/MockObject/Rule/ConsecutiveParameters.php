@@ -9,6 +9,10 @@
  */
 namespace PHPUnit\Framework\MockObject\Rule;
 
+use function count;
+use function gettype;
+use function is_iterable;
+use function sprintf;
 use PHPUnit\Framework\Constraint\Constraint;
 use PHPUnit\Framework\Constraint\IsEqual;
 use PHPUnit\Framework\ExpectationFailedException;
@@ -17,6 +21,8 @@ use PHPUnit\Framework\MockObject\Invocation as BaseInvocation;
 
 /**
  * @internal This class is not covered by the backward compatibility promise for PHPUnit
+ *
+ * @deprecated
  */
 final class ConsecutiveParameters implements ParametersRule
 {
@@ -36,13 +42,13 @@ final class ConsecutiveParameters implements ParametersRule
     public function __construct(array $parameterGroups)
     {
         foreach ($parameterGroups as $index => $parameters) {
-            if (!\is_iterable($parameters)) {
+            if (!is_iterable($parameters)) {
                 throw new InvalidParameterGroupException(
-                    \sprintf(
+                    sprintf(
                         'Parameter group #%d must be an array or Traversable, got %s',
                         $index,
-                        \gettype($parameters)
-                    )
+                        gettype($parameters),
+                    ),
                 );
             }
 
@@ -62,20 +68,20 @@ final class ConsecutiveParameters implements ParametersRule
     }
 
     /**
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      */
     public function apply(BaseInvocation $invocation): void
     {
         $this->invocations[] = $invocation;
-        $callIndex           = \count($this->invocations) - 1;
+        $callIndex           = count($this->invocations) - 1;
 
         $this->verifyInvocation($invocation, $callIndex);
     }
 
     /**
-     * @throws \PHPUnit\Framework\ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      */
     public function verify(): void
     {
@@ -85,12 +91,12 @@ final class ConsecutiveParameters implements ParametersRule
     }
 
     /**
-     * Verify a single invocation
+     * Verify a single invocation.
      *
      * @param int $callIndex
      *
-     * @throws ExpectationFailedException
      * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
+     * @throws ExpectationFailedException
      */
     private function verifyInvocation(BaseInvocation $invocation, $callIndex): void
     {
@@ -99,33 +105,27 @@ final class ConsecutiveParameters implements ParametersRule
             return;
         }
 
-        if ($invocation === null) {
-            throw new ExpectationFailedException(
-                'Mocked method does not exist.'
-            );
-        }
-
         $parameters = $this->parameterGroups[$callIndex];
 
-        if (\count($invocation->getParameters()) < \count($parameters)) {
+        if (count($invocation->getParameters()) < count($parameters)) {
             throw new ExpectationFailedException(
-                \sprintf(
+                sprintf(
                     'Parameter count for invocation %s is too low.',
-                    $invocation->toString()
-                )
+                    $invocation->toString(),
+                ),
             );
         }
 
         foreach ($parameters as $i => $parameter) {
             $parameter->evaluate(
                 $invocation->getParameters()[$i],
-                \sprintf(
+                sprintf(
                     'Parameter %s for invocation #%d %s does not match expected ' .
                     'value.',
                     $i,
                     $callIndex,
-                    $invocation->toString()
-                )
+                    $invocation->toString(),
+                ),
             );
         }
     }

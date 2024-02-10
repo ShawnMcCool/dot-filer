@@ -60,7 +60,7 @@ class Command implements CommandInterface
      */
     public function setName($name)
     {
-        if (empty($name) || $name[0] === '-' || strpos($name, ' ') !== false) {
+        if (empty($name) || preg_match('/(^| )-/', $name)) {
             throw new \InvalidArgumentException(sprintf(
                 'Command name has to be an alphanumeric string not starting with dash, found \'%s\'',
                 $name
@@ -116,29 +116,9 @@ class Command implements CommandInterface
     }
 
     /**
-     * @deprecated will be removed in version 4
-     * @see getName
-     * @codeCoverageIgnore
-     */
-    public function name()
-    {
-        return $this->name;
-    }
-
-    /**
      * @return mixed
      */
     public function getHandler()
-    {
-        return $this->handler;
-    }
-
-    /**
-     * @deprecated will be removed in version 4
-     * @see getHandler
-     * @codeCoverageIgnore
-     */
-    public function handler()
     {
         return $this->handler;
     }
@@ -152,29 +132,9 @@ class Command implements CommandInterface
     }
 
     /**
-     * @deprecated will be removed in version 4
-     * @see getDescription
-     * @codeCoverageIgnore
-     */
-    public function description()
-    {
-        return $this->longDescription;
-    }
-
-    /**
      * @return string
      */
     public function getShortDescription()
-    {
-        return $this->shortDescription;
-    }
-
-    /**
-     * @deprecated will be removed in version 4
-     * @see getShortDescription
-     * @codeCoverageIgnore
-     */
-    public function shortDescription()
     {
         return $this->shortDescription;
     }

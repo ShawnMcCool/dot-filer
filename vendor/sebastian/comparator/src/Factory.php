@@ -9,6 +9,8 @@
  */
 namespace SebastianBergmann\Comparator;
 
+use function array_unshift;
+
 /**
  * Factory for comparators which compare values for equality.
  */
@@ -84,9 +86,9 @@ class Factory
      *
      * @param Comparator $comparator The comparator to be registered
      */
-    public function register(Comparator $comparator): void
+    public function register(Comparator $comparator)/*: void*/
     {
-        \array_unshift($this->customComparators, $comparator);
+        array_unshift($this->customComparators, $comparator);
 
         $comparator->setFactory($this);
     }
@@ -98,7 +100,7 @@ class Factory
      *
      * @param Comparator $comparator The comparator to be unregistered
      */
-    public function unregister(Comparator $comparator): void
+    public function unregister(Comparator $comparator)/*: void*/
     {
         foreach ($this->customComparators as $key => $_comparator) {
             if ($comparator === $_comparator) {
@@ -110,7 +112,7 @@ class Factory
     /**
      * Unregisters all non-default comparators.
      */
-    public function reset(): void
+    public function reset()/*: void*/
     {
         $this->customComparators = [];
     }
@@ -125,7 +127,6 @@ class Factory
         $this->registerDefaultComparator(new ObjectComparator);
         $this->registerDefaultComparator(new ResourceComparator);
         $this->registerDefaultComparator(new ArrayComparator);
-        $this->registerDefaultComparator(new DoubleComparator);
         $this->registerDefaultComparator(new NumericComparator);
         $this->registerDefaultComparator(new ScalarComparator);
         $this->registerDefaultComparator(new TypeComparator);

@@ -9,16 +9,19 @@
  */
 namespace SebastianBergmann\Timer;
 
+use function array_pop;
+use function hrtime;
+
 final class Timer
 {
     /**
-     * @psalm-var list<int>
+     * @psalm-var list<float>
      */
     private $startTimes = [];
 
     public function start(): void
     {
-        $this->startTimes[] = \hrtime(true);
+        $this->startTimes[] = (float) hrtime(true);
     }
 
     /**
@@ -32,6 +35,6 @@ final class Timer
             );
         }
 
-        return Duration::fromNanoseconds(\hrtime(true) - \array_pop($this->startTimes));
+        return Duration::fromNanoseconds((float) hrtime(true) - array_pop($this->startTimes));
     }
 }

@@ -11,7 +11,7 @@
     ],
     "prefer-stable": true,
     "require": {
-        "php": "^7.3"
+        "php": ">=7.3"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.0"
@@ -30,7 +30,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "3.0-dev"
+            "dev-main": "3.0-dev"
         }
     }
 }

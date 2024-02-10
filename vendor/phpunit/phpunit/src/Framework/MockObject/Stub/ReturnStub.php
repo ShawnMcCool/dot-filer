@@ -9,6 +9,7 @@
  */
 namespace PHPUnit\Framework\MockObject\Stub;
 
+use function sprintf;
 use PHPUnit\Framework\MockObject\Invocation;
 use SebastianBergmann\Exporter\Exporter;
 
@@ -36,9 +37,9 @@ final class ReturnStub implements Stub
     {
         $exporter = new Exporter;
 
-        return \sprintf(
+        return sprintf(
             'return user-specified value %s',
-            $exporter->export($this->value)
+            $exporter->export($this->value),
         );
     }
 }

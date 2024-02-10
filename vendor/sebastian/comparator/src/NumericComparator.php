@@ -9,6 +9,14 @@
  */
 namespace SebastianBergmann\Comparator;
 
+use function abs;
+use function is_float;
+use function is_infinite;
+use function is_nan;
+use function is_numeric;
+use function is_string;
+use function sprintf;
+
 /**
  * Compares numerical values for equality.
  */
@@ -24,11 +32,9 @@ class NumericComparator extends ScalarComparator
      */
     public function accepts($expected, $actual)
     {
-        // all numerical values, but not if one of them is a double
-        // or both of them are strings
-        return \is_numeric($expected) && \is_numeric($actual) &&
-               !(\is_float($expected) || \is_float($actual)) &&
-               !(\is_string($expected) && \is_string($actual));
+        // all numerical values, but not if both of them are strings
+        return is_numeric($expected) && is_numeric($actual) &&
+               !(is_string($expected) && is_string($actual));
     }
 
     /**
@@ -42,7 +48,7 @@ class NumericComparator extends ScalarComparator
      *
      * @throws ComparisonFailure
      */
-    public function assertEquals($expected, $actual, $delta = 0.0, $canonicalize = false, $ignoreCase = false): void
+    public function assertEquals($expected, $actual, $delta = 0.0, $canonicalize = false, $ignoreCase = false)/*: void*/
     {
         if ($this->isInfinite($actual) && $this->isInfinite($expected)) {
             return;
@@ -50,14 +56,14 @@ class NumericComparator extends ScalarComparator
 
         if (($this->isInfinite($actual) xor $this->isInfinite($expected)) ||
             ($this->isNan($actual) || $this->isNan($expected)) ||
-            \abs($actual - $expected) > $delta) {
+            abs($actual - $expected) > $delta) {
             throw new ComparisonFailure(
                 $expected,
                 $actual,
                 '',
                 '',
                 false,
-                \sprintf(
+                sprintf(
                     'Failed asserting that %s matches expected %s.',
                     $this->exporter->export($actual),
                     $this->exporter->export($expected)
@@ -68,11 +74,11 @@ class NumericComparator extends ScalarComparator
 
     private function isInfinite($value): bool
     {
-        return \is_float($value) && \is_infinite($value);
+        return is_float($value) && is_infinite($value);
     }
 
     private function isNan($value): bool
     {
-        return \is_float($value) && \is_nan($value);
+        return is_float($value) && is_nan($value);
     }
 }
